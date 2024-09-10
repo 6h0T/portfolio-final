@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Home, BookOpen, Mail, Moon, Sun, DownloadIcon, ExternalLink, ChevronRight, ChevronDown, Box, Globe, Users, Layers, ArrowDown } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 //import "@/styles/fonts.css"
 import { cn } from "@/lib/utils"
 
@@ -405,7 +405,7 @@ export default function LandingPage() {
     const homeTop = homeRef.current?.offsetTop ?? 0
     const knowledgeTop = knowledgeRef.current?.offsetTop ?? 0
     const portfolioTop = portfolioRef.current?.offsetTop ?? 0
-    const contactTop = contactRef.current?.offsetTop ?? 0
+    const contactTop = contactRef.current? .offsetTop ?? 0
 
     const scrollPosition = window.scrollY + window.innerHeight / 2
 
@@ -518,8 +518,7 @@ export default function LandingPage() {
   const words = [
     { text: "Build,create,deploy" },
     { text: "awesome websites" },
-    { text: "and grow ur" },
-    { text: "company", className: "text-[#4CAF50]" },
+    { text: "and grow ur company", className: "text-[#4CAF50]" },
   ]
 
   useEffect(() => {
