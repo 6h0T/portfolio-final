@@ -134,7 +134,7 @@ const TreeNode: React.FC<{ node: TreeNode; level?: number; isDarkMode: boolean }
         return <Box className="w-5 h-5 mr-2 text-green-500" />
       case 'Web Design':
         return <Globe className="w-5 h-5 mr-2 text-green-500" />
-      case 'User Experience':
+      case 'Flyers':
         return <Users className="w-5 h-5 mr-2 text-green-500" />
       case 'Brand Identity':
         return <Layers className="w-5 h-5 mr-2 text-green-500" />
@@ -204,7 +204,7 @@ type Project = {
   id: string
   name: string
   url: string
-  category: 'Graphic Design' | 'Web Design' | 'User Experience' | 'Brand Identity'
+  category: 'Graphic Design' | 'Web Design' | 'Flyers' | 'Brand Identity'
   image: string
 }
 
@@ -213,21 +213,37 @@ type TreeNode = {
   name: string
   children?: TreeNode[]
   url?: string
-  category?: 'Graphic Design' | 'Web Design' | 'User Experience' | 'Brand Identity'
+  category?: 'Graphic Design' | 'Web Design' | 'Flyers' | 'Brand Identity'
   image?: string
 }
 
 // Helper functions
 const fetchProjects = async (): Promise<Project[]> => {
   return [
-    { id: '1', name: 'AiSolves', url: 'https://example.com/aisolves', category: 'Web Design', image: '/placeholder.svg?height=159&width=238' },
-    { id: '2', name: 'Techie', url: 'https://example.com/techie', category: 'Web Design', image: '/placeholder.svg?height=159&width=238' },
-    { id: '3', name: 'Crypto', url: 'https://example.com/crypto', category: 'Web Design', image: '/placeholder.svg?height=159&width=238' },
-    { id: '4', name: 'Elevezine', url: 'https://example.com/elevezine', category: 'Web Design', image: '/placeholder.svg?height=159&width=238' },
-    { id: '5', name: 'Brokers Ads', url: 'https://example.com/brokers-ads', category: 'Graphic Design', image: '/placeholder.svg?height=159&width=238' },
-    { id: '6', name: 'Music Covers', url: 'https://example.com/music-covers', category: 'Graphic Design', image: '/placeholder.svg?height=159&width=238' },
-    { id: '7', name: 'Eagle Brand', url: 'https://example.com/eagle-brand', category: 'Brand Identity', image: '/placeholder.svg?height=159&width=238' },
-    { id: '8', name: 'Anime Fest', url: 'https://example.com/anime-fest', category: 'Brand Identity', image: '/placeholder.svg?height=159&width=238' },
+    { id: '1', name: 'AiSolves', url: 'https://dribbble.com/shots/24572059-Ai-Solvess', category: 'Web Design', image: '/placeholder.svg?height=159&width=238' },
+    { id: '2', name: 'Aleatory', url: 'https://dribbble.com/shots/24572108-Aleatory', category: 'Web Design', image: '/placeholder.svg?height=159&width=238' },
+    { id: '3', name: 'Smartpro', url: 'https://www.behance.net/gallery/176340759/Catalogo-de-producto-SmartPro', category: 'Brand Identity', image: '/placeholder.svg?height=159&width=238' },
+    { id: '4', name: 'Evolution', url: 'https://www.behance.net/gallery/181161137/Evolution', category: 'Graphic Design', image: '/placeholder.svg?height=159&width=238' },
+    { id: '5', name: 'Vynil Cover', url: 'https://dribbble.com/shots/22212739-Cat-with-drip', category: 'Graphic Design', image: '/placeholder.svg?height=159&width=238' },
+    { id: '6', name: 'Touché Sports', url: 'https://www.behance.net/gallery/145489119/Touch-Sports', category: 'Graphic Design', image: '/placeholder.svg?height=159&width=238' },
+    { id: '7', name: 'Miche Barbershop', url: 'https://www.behance.net/gallery/176339339/Miche-Barbershop', category: 'Brand Identity', image: '/placeholder.svg?height=159&width=238' },
+    { id: '8', name: 'Valkiria', url: 'https://www.behance.net/gallery/142578631/Valkiria', category: 'Brand Identity', image: '/placeholder.svg?height=159&width=238' },
+    { id: '9', name: 'Hefesto Vynil Cover', url: 'https://www.behance.net/gallery/142401081/Hefesto', category: 'Graphic Design', image: '/placeholder.svg?height=159&width=238' },
+    { id: '10', name: 'gh0ts portfolio', url: 'https://gh0t.art', category: 'Web Design', image: '/placeholder.svg?height=159&width=238' },
+    { id: '11', name: 'Suburbia', url: 'https://www.behance.net/gallery/142399405/Suburbia', category: 'Flyers', image: '/placeholder.svg?height=159&width=238' },
+    { id: '12', name: 'Dreamers', url: 'https://dribbble.com/shots/18051117-Dreamers', category: 'Flyers', image: '/placeholder.svg?height=159&width=238' },
+    { id: '13', name: 'Graphic design is my passion', url: 'https://dribbble.com/shots/18051122-Graphic-design-is-my-passion', category: 'Flyers', image: '/placeholder.svg?height=159&width=238' },
+    { id: '14', name: 'Techno party', url: 'https://dribbble.com/shots/22212787-TECHNO-FLYER', category: 'Flyers', image: '/placeholder.svg?height=159&width=238' },
+    { id: '15', name: 'Emotions', url: 'https://dribbble.com/shots/22280887-Emotions', category: 'Flyers', image: '/placeholder.svg?height=159&width=238' },
+    { id: '16', name: 'Emotions pt2', url: 'https://dribbble.com/shots/22401925-Casual-wednesday-art', category: 'Flyers', image: '/placeholder.svg?height=159&width=238' },
+    { id: '17', name: 'Teen Age Mutants', url: 'https://dribbble.com/shots/24571936-Teen-age-mutants', category: 'Flyers', image: '/placeholder.svg?height=159&width=238' },
+    { id: '18', name: 'Brokers Ads', url: 'https://www.behance.net/gallery/176392849/Landing-BrokersAds', category: 'Flyers', image: '/placeholder.svg?height=159&width=238' },
+    { id: '19', name: 'Seneca insumos', url: 'https://dribbble.com/shots/24572243-S-neca-Insumos', category: 'Brand Identity', image: '/placeholder.svg?height=159&width=238' },
+    { id: '20', name: 'S.ph', url: 'https://dribbble.com/shots/24572360-S-ph', category: 'Brand Identity', image: '/placeholder.svg?height=159&width=238' },
+    { id: '21', name: 'LVM AUTOMOTORES', url: 'https://dribbble.com/shots/24572419-LVM-Automotores', category: 'Brand Identity', image: '/placeholder.svg?height=159&width=238' },
+    { id: '21', name: 'Fundación claves', url: 'https://www.behance.net/gallery/183766575/Fundacion-Claves', category: 'Brand Identity', image: '/placeholder.svg?height=159&width=238' },
+    { id: '21', name: 'Loyal Insumos', url: 'https://www.behance.net/gallery/183948887/Tarjetas-Personales', category: 'Brand Identity', image: '/placeholder.svg?height=159&width=238' },
+
   ]
 }
 
@@ -236,7 +252,7 @@ const createTreeStructure = (projects: Project[]): TreeNode => {
   const categories: { [key: string]: TreeNode } = {
     'Graphic Design': { id: 'graphic-design', name: 'Graphic Design', children: [] },
     'Web Design': { id: 'web-design', name: 'Web Design', children: [] },
-    'User Experience': { id: 'user-experience', name: 'User Experience', children: [] },
+    'Flyers': { id: 'user-experience', name: 'Flyers', children: [] },
     'Brand Identity': { id: 'brand-identity', name: 'Brand Identity', children: [] },
   }
 
@@ -276,7 +292,7 @@ const PortfolioTree: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => {
           : 'linear-gradient(135deg, rgba(76,175,80,0.05) 0%, rgba(76,175,80,0.3) 100%)',
         backdropFilter: 'blur(10px)',
       }}>
-        <h2 className={`text-3xl font-bold mb-8 ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>Portfolio Projects</h2>
+        <h2 className={`text-3xl font-bold mb-8 ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>My work</h2>
         <div className="overflow-auto max-h-[75vh]">
           {treeData ? (
             <TreeNode node={treeData} isDarkMode={isDarkMode} />
@@ -296,7 +312,7 @@ const TypewriterEffectSmooth = ({ words }) => {
 
   useEffect(() => {
     const word = words[currentWordIndex].text
-    const delay = isDeleting ? 100 : 200 // Increased delay for slower animation
+    const delay = isDeleting ? 300 : 400 // Increased delay for slower animation
 
     if (!isDeleting && currentText === word) {
       setTimeout(() => setIsDeleting(true), 2000) // Increased pause at the end of the word
@@ -500,11 +516,10 @@ export default function LandingPage() {
   }
 
   const words = [
-    { text: "Build" },
-    { text: "awesome" },
-    { text: "apps" },
-    { text: "with" },
-    { text: "Aceternity.", className: "text-[#4CAF50]" },
+    { text: "Build,create,deploy" },
+    { text: "awesome websites" },
+    { text: "and grow ur" },
+    { text: "company", className: "text-[#4CAF50]" },
   ]
 
   useEffect(() => {
@@ -608,7 +623,7 @@ export default function LandingPage() {
             variant="ghost" 
             size="sm" 
             className={`rounded-full ${
-              activeSection === 'portfolio'
+              activeSection === 'My work'
                 ? isDarkMode
                   ? 'bg-[#4CAF50]/20 text-[#4CAF50]'
                   : 'bg-[#1a1a1a]/20 text-[#1a1a1a]'
@@ -1085,7 +1100,7 @@ export default function LandingPage() {
                       <TypewriterEffectSmooth words={words} />
                       <div className="mt-8" >
                       <a href="mailto:eliolaurencio@gmail.com" 
-                          className="inline-block w-40 h-10 rounded-md bg-[#4CAF50] text-white text-sm font-medium transition-colors hover:bg-gray-700 flex items-center justify-center"
+                          className=" w-40 h-10 rounded-md bg-[#4CAF50] text-white text-sm font-medium transition-colors hover:bg-gray-700 flex items-center justify-center"
                         >
                           Lets have a chat
                         </a>
