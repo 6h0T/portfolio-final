@@ -384,23 +384,23 @@ export default function LandingPage() {
   }, [fullText, index, isDeleting])
 
   const updateActiveSection = () => {
-    const homeTop = homeRef.current?.offsetTop ?? 0
-    const knowledgeTop = knowledgeRef.current?.offsetTop ?? 0
-    const portfolioTop = portfolioRef.current?.offsetTop ?? 0
-    const contactTop = contactRef.current? .offsetTop ?? 0
-
-    const scrollPosition = window.scrollY + window.innerHeight / 2
-
+    const homeTop = homeRef.current?.offsetTop ?? 0;
+    const knowledgeTop = knowledgeRef.current?.offsetTop ?? 0;
+    const portfolioTop = portfolioRef.current?.offsetTop ?? 0;
+    const contactTop = contactRef.current?.offsetTop ?? 0;
+  
+    const scrollPosition = window.scrollY + window.innerHeight / 2;
+  
     if (scrollPosition < knowledgeTop) {
-      setActiveSection('home')
+      setActiveSection('home');
     } else if (scrollPosition < portfolioTop) {
-      setActiveSection('knowledge')
+      setActiveSection('knowledge');
     } else if (scrollPosition < contactTop) {
-      setActiveSection('portfolio')
+      setActiveSection('portfolio');
     } else {
-      setActiveSection('contact')
+      setActiveSection('contact');
     }
-  }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
