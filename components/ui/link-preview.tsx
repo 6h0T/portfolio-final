@@ -11,7 +11,11 @@ import {
 } from "framer-motion";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { MotionValue } from 'framer-motion';
 
+interface HandleMouseMoveProps {
+  x: MotionValue<number>;
+}
 type LinkPreviewProps = {
   children: React.ReactNode;
   url: string;
@@ -67,10 +71,11 @@ export const LinkPreview = ({
 
   const translateX = useSpring(x, springConfig);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const targetRect = event.target.getBoundingClientRect();
-    const eventOffsetX = event.clientX - targetRect.left;
-    const offsetFromCenter = (eventOffsetX - targetRect.width / 2) / 2; // Reduce the effect to make it subtle
+  const handleMouseMove = ({ x }: HandleMouseMoveProps) => (e: React.MouseEvent<HTMLDivElement>) => {
+    const targetRect = e.currentTarget.getBoundingClientRect();
+    const mouseX = e.clientX - targetRect.left;
+    const centerX = targetRect.width / 2;
+    const offsetFromCenter = (mouseX - centerX) / 2; // Reduce the effect to make it subtle
     x.set(offsetFromCenter);
   };
 
