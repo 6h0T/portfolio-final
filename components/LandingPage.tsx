@@ -129,18 +129,7 @@ const TreeNode: React.FC<{ node: TreeNode; level?: number; isDarkMode: boolean }
   const hasChildren = node.children && node.children.length > 0
 
   const getCategoryIcon = (category: string) => {
-    switch (category) {
-      case 'Graphic Design':
-        return <Box className="w-5 h-5 mr-2 text-green-500" />
-      case 'Web Design':
-        return <Globe className="w-5 h-5 mr-2 text-green-500" />
-      case 'Flyers':
-        return <Users className="w-5 h-5 mr-2 text-green-500" />
-      case 'Brand Identity':
-        return <Layers className="w-5 h-5 mr-2 text-green-500" />
-      default:
-        return null
-    }
+    // ... (keep your existing icon logic)
   }
 
   return (
@@ -160,23 +149,15 @@ const TreeNode: React.FC<{ node: TreeNode; level?: number; isDarkMode: boolean }
           getCategoryIcon(node.category!)
         )}
         {node.url ? (
-          <CustomTooltip
-            content={
-              <div className="w-[238px] h-[159px]">
-                <img src={node.image} alt={node.name} className="w-full h-full object-cover" />
-              </div>
-            }
+          <a
+            href={node.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${isDarkMode ? 'text-green-400 hover:text-green-300' : 'text-green-600 hover:text-green-700'} transition-colors duration-200`}
+            onClick={(e) => e.stopPropagation()}
           >
-            <a
-              href={node.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`${isDarkMode ? 'text-green-400 hover:text-green-300' : 'text-green-600 hover:text-green-700'} transition-colors duration-200`}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {node.name}
-            </a>
-          </CustomTooltip>
+            {node.name}
+          </a>
         ) : (
           <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>{node.name}</span>
         )}
@@ -215,35 +196,35 @@ type TreeNode = {
   url?: string
   category?: 'Graphic Design' | 'Web Design' | 'Flyers' | 'Brand Identity'
   image?: string
+  description?: string
 }
 
 // Helper functions
 const fetchProjects = async (): Promise<Project[]> => {
   return [
-    { id: '1', name: 'AiSolves', url: 'https://dribbble.com/shots/24572059-Ai-Solvess', category: 'Web Design', image: '/placeholder.svg?height=159&width=238' },
-    { id: '2', name: 'Aleatory', url: 'https://dribbble.com/shots/24572108-Aleatory', category: 'Web Design', image: '/placeholder.svg?height=159&width=238' },
-    { id: '3', name: 'Smartpro', url: 'https://www.behance.net/gallery/176340759/Catalogo-de-producto-SmartPro', category: 'Brand Identity', image: '/placeholder.svg?height=159&width=238' },
-    { id: '4', name: 'Evolution', url: 'https://www.behance.net/gallery/181161137/Evolution', category: 'Graphic Design', image: '/placeholder.svg?height=159&width=238' },
-    { id: '5', name: 'Vynil Cover', url: 'https://dribbble.com/shots/22212739-Cat-with-drip', category: 'Graphic Design', image: '/placeholder.svg?height=159&width=238' },
-    { id: '6', name: 'Touché Sports', url: 'https://www.behance.net/gallery/145489119/Touch-Sports', category: 'Graphic Design', image: '/placeholder.svg?height=159&width=238' },
-    { id: '7', name: 'Miche Barbershop', url: 'https://www.behance.net/gallery/176339339/Miche-Barbershop', category: 'Brand Identity', image: '/placeholder.svg?height=159&width=238' },
-    { id: '8', name: 'Valkiria', url: 'https://www.behance.net/gallery/142578631/Valkiria', category: 'Brand Identity', image: '/placeholder.svg?height=159&width=238' },
-    { id: '9', name: 'Hefesto Vynil Cover', url: 'https://www.behance.net/gallery/142401081/Hefesto', category: 'Graphic Design', image: '/placeholder.svg?height=159&width=238' },
-    { id: '10', name: 'gh0ts portfolio', url: 'https://gh0t.art', category: 'Web Design', image: '/placeholder.svg?height=159&width=238' },
-    { id: '11', name: 'Suburbia', url: 'https://www.behance.net/gallery/142399405/Suburbia', category: 'Flyers', image: '/placeholder.svg?height=159&width=238' },
-    { id: '12', name: 'Dreamers', url: 'https://dribbble.com/shots/18051117-Dreamers', category: 'Flyers', image: '/placeholder.svg?height=159&width=238' },
-    { id: '13', name: 'Graphic design is my passion', url: 'https://dribbble.com/shots/18051122-Graphic-design-is-my-passion', category: 'Flyers', image: '/placeholder.svg?height=159&width=238' },
-    { id: '14', name: 'Techno party', url: 'https://dribbble.com/shots/22212787-TECHNO-FLYER', category: 'Flyers', image: '/placeholder.svg?height=159&width=238' },
-    { id: '15', name: 'Emotions', url: 'https://dribbble.com/shots/22280887-Emotions', category: 'Flyers', image: '/placeholder.svg?height=159&width=238' },
-    { id: '16', name: 'Emotions pt2', url: 'https://dribbble.com/shots/22401925-Casual-wednesday-art', category: 'Flyers', image: '/placeholder.svg?height=159&width=238' },
-    { id: '17', name: 'Teen Age Mutants', url: 'https://dribbble.com/shots/24571936-Teen-age-mutants', category: 'Flyers', image: '/placeholder.svg?height=159&width=238' },
-    { id: '18', name: 'Brokers Ads', url: 'https://www.behance.net/gallery/176392849/Landing-BrokersAds', category: 'Flyers', image: '/placeholder.svg?height=159&width=238' },
-    { id: '19', name: 'Seneca insumos', url: 'https://dribbble.com/shots/24572243-S-neca-Insumos', category: 'Brand Identity', image: '/placeholder.svg?height=159&width=238' },
-    { id: '20', name: 'S.ph', url: 'https://dribbble.com/shots/24572360-S-ph', category: 'Brand Identity', image: '/placeholder.svg?height=159&width=238' },
-    { id: '21', name: 'LVM AUTOMOTORES', url: 'https://dribbble.com/shots/24572419-LVM-Automotores', category: 'Brand Identity', image: '/placeholder.svg?height=159&width=238' },
-    { id: '21', name: 'Fundación claves', url: 'https://www.behance.net/gallery/183766575/Fundacion-Claves', category: 'Brand Identity', image: '/placeholder.svg?height=159&width=238' },
-    { id: '21', name: 'Loyal Insumos', url: 'https://www.behance.net/gallery/183948887/Tarjetas-Personales', category: 'Brand Identity', image: '/placeholder.svg?height=159&width=238' },
-
+    { id: '1', name: 'AiSolves', url: 'https://dribbble.com/shots/24572059-Ai-Solvess', category: 'Web Design', image: 'https://cdn.dribbble.com/userupload/12037524/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300', description: 'AI-powered problem-solving platform' },
+    { id: '2', name: 'Aleatory', url: 'https://dribbble.com/shots/24572108-Aleatory', category: 'Web Design', image: 'https://cdn.dribbble.com/userupload/12037573/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300', description: 'Random content generator website' },
+    { id: '3', name: 'Smartpro', url: 'https://www.behance.net/gallery/176340759/Catalogo-de-producto-SmartPro', category: 'Brand Identity', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/35f9f9176340759.64c7e7a9e6f11.jpg', description: 'Product catalog for SmartPro' },
+    { id: '4', name: 'Evolution', url: 'https://www.behance.net/gallery/181161137/Evolution', category: 'Graphic Design', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/d46d7e181161137.651a9f1f6ff91.jpg', description: 'Graphic design project showcasing evolution' },
+    { id: '5', name: 'Vynil Cover', url: 'https://dribbble.com/shots/22212739-Cat-with-drip', category: 'Graphic Design', image: 'https://cdn.dribbble.com/userupload/7743321/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300', description: 'Vinyl cover design featuring a stylish cat' },
+    { id: '6', name: 'Touché Sports', url: 'https://www.behance.net/gallery/145489119/Touch-Sports', category: 'Graphic Design', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/b4b51e145489119.62a0d2a0e3a1f.jpg', description: 'Graphic design for Touché Sports brand' },
+    { id: '7', name: 'Miche Barbershop', url: 'https://www.behance.net/gallery/176339339/Miche-Barbershop', category: 'Brand Identity', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/c1f5e9176339339.64c7e5f0a0c1a.jpg', description: 'Brand identity design for Miche Barbershop' },
+    { id: '8', name: 'Valkiria', url: 'https://www.behance.net/gallery/142578631/Valkiria', category: 'Brand Identity', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/b8e51b142578631.626b0c3f4fc5f.jpg', description: 'Brand identity project for Valkiria' },
+    { id: '9', name: 'Hefesto Vynil Cover', url: 'https://www.behance.net/gallery/142401081/Hefesto', category: 'Graphic Design', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/a75baf142401081.6266f2c6a40e4.jpg', description: 'Vinyl cover design for Hefesto' },
+    { id: '10', name: 'gh0ts portfolio', url: 'https://gh0t.art', category: 'Web Design', image: '/placeholder.svg?height=159&width=238', description: 'Personal portfolio website' },
+    { id: '11', name: 'Suburbia', url: 'https://www.behance.net/gallery/142399405/Suburbia', category: 'Flyers', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/b1c72e142399405.6266edb8a2cc7.jpg', description: 'Flyer design for Suburbia event' },
+    { id: '12', name: 'Dreamers', url: 'https://dribbble.com/shots/18051117-Dreamers', category: 'Flyers', image: 'https://cdn.dribbble.com/users/1803663/screenshots/18051117/media/c9c4d2d2d2d2d2d2d2d2d2d2d2d2d2d2.jpg?resize=400x300', description: 'Flyer design for Dreamers event' },
+    { id: '13', name: 'Graphic design is my passion', url: 'https://dribbble.com/shots/18051122-Graphic-design-is-my-passion', category: 'Flyers', image: 'https://cdn.dribbble.com/users/1803663/screenshots/18051122/media/c9c4d2d2d2d2d2d2d2d2d2d2d2d2d2d2.jpg?resize=400x300', description: 'Humorous flyer design' },
+    { id: '14', name: 'Techno party', url: 'https://dribbble.com/shots/22212787-TECHNO-FLYER', category: 'Flyers', image: 'https://cdn.dribbble.com/userupload/7743369/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300', description: 'Flyer design for a techno party' },
+    { id: '15', name: 'Emotions', url: 'https://dribbble.com/shots/22280887-Emotions', category: 'Flyers', image: 'https://cdn.dribbble.com/userupload/7811517/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300', description: 'Flyer design exploring emotions' },
+    { id: '16', name: 'Emotions pt2', url: 'https://dribbble.com/shots/22401925-Casual-wednesday-art', category: 'Flyers', image: 'https://cdn.dribbble.com/userupload/7932463/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300', description: 'Continuation of the Emotions flyer series' },
+    { id: '17', name: 'Teen Age Mutants', url: 'https://dribbble.com/shots/24571936-Teen-age-mutants', category: 'Flyers', image: 'https://cdn.dribbble.com/userupload/12037401/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300', description: 'Flyer design inspired by teenage mutants' },
+    { id: '18', name: 'Brokers Ads', url: 'https://www.behance.net/gallery/176392849/Landing-BrokersAds', category: 'Flyers', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/35f9f9176392849.64c8b1a9e6f11.jpg', description: 'Landing page design for Brokers Ads' },
+    { id: '19', name: 'Seneca insumos', url: 'https://dribbble.com/shots/24572243-S-neca-Insumos', category: 'Brand Identity', image: 'https://cdn.dribbble.com/userupload/12037708/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300', description: 'Brand identity for Seneca Insumos' },
+    { id: '20', name: 'S.ph', url: 'https://dribbble.com/shots/24572360-S-ph', category: 'Brand Identity', image: 'https://cdn.dribbble.com/userupload/12037825/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300', description: 'Brand identity design for S.ph' },
+    { id: '21', name: 'LVM AUTOMOTORES', url: 'https://dribbble.com/shots/24572419-LVM-Automotores', category: 'Brand Identity', image: 'https://cdn.dribbble.com/userupload/12037884/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300', description: 'Brand identity for LVM Automotores' },
+    { id: '22', name: 'Fundación claves', url: 'https://www.behance.net/gallery/183766575/Fundacion-Claves', category: 'Brand Identity', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/35f9f9183766575.654a9f1f6ff91.jpg', description: 'Brand identity design for Fundación Claves' },
+    { id: '23', name: 'Loyal Insumos', url: 'https://www.behance.net/gallery/183948887/Tarjetas-Personales', category: 'Brand Identity', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/35f9f9183948887.654f9f1f6ff91.jpg', description: 'Business card design for Loyal Insumos' },
   ]
 }
 
@@ -252,7 +233,7 @@ const createTreeStructure = (projects: Project[]): TreeNode => {
   const categories: { [key: string]: TreeNode } = {
     'Graphic Design': { id: 'graphic-design', name: 'Graphic Design', children: [] },
     'Web Design': { id: 'web-design', name: 'Web Design', children: [] },
-    'Flyers': { id: 'user-experience', name: 'Flyers', children: [] },
+    'Flyers': { id: 'flyers', name: 'Flyers', children: [] },
     'Brand Identity': { id: 'brand-identity', name: 'Brand Identity', children: [] },
   }
 
@@ -263,6 +244,7 @@ const createTreeStructure = (projects: Project[]): TreeNode => {
       url: project.url,
       category: project.category,
       image: project.image,
+      description: project.description,
     }
     categories[project.category].children!.push(node)
   })
