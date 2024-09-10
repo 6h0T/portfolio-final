@@ -124,18 +124,31 @@ const CustomTooltip: React.FC<{ children: React.ReactNode; content: React.ReactN
 }
 
 // TreeNode component
-const TreeNode: React.FC<{ node: TreeNode; level?: number; isDarkMode: boolean }> = ({ node, level = 0, isDarkMode }) => {
-  const [isOpen, setIsOpen] = useState(level === 0)
-  const hasChildren = node.children && node.children.length > 0
+const TreeNode: React.FC<TreeNodeProps> = ({ node, level = 0, isDarkMode }) => {
+  const [isOpen, setIsOpen] = useState(level === 0);
+  const hasChildren = node.children && node.children.length > 0;
 
-  const getCategoryIcon = (category: string) => {
-    // ... (keep your existing icon logic)
-  }
+  const getCategoryIcon = (category: CategoryType): React.ReactElement => {
+    switch (category) {
+      case 'Graphic Design':
+        return <Box className="w-5 h-5 mr-2 text-green-500" />;
+      case 'Web Design':
+        return <Globe className="w-5 h-5 mr-2 text-green-500" />;
+      case 'User Experience':
+        return <Users className="w-5 h-5 mr-2 text-green-500" />;
+      case 'Brand Identity':
+        return <Layers className="w-5 h-5 mr-2 text-green-500" />;
+      default:
+        return <Box className="w-5 h-5 mr-2 text-green-500" />;
+    }
+  };
 
   return (
     <div className="select-none text-base font-outfit">
       <div
-        className={`flex items-center py-2 px-3 cursor-pointer rounded-md ${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}
+        className={`flex items-center py-2 px-3 cursor-pointer rounded-md ${
+          isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'
+        }`}
         style={{ paddingLeft: `${level * 20}px` }}
         onClick={() => hasChildren && setIsOpen(!isOpen)}
       >
@@ -148,37 +161,39 @@ const TreeNode: React.FC<{ node: TreeNode; level?: number; isDarkMode: boolean }
         ) : (
           node.category && getCategoryIcon(node.category)
         )}
-      {node.url ? (
-        <a
-          href={node.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={`${isDarkMode ? 'text-green-400 hover:text-green-300' : 'text-green-600 hover:text-green-700'} transition-colors duration-200`}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {node.name}
-        </a>
-      ) : (
-        <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>{node.name}</span>
-      )}
+        {node.url ? (
+          <a
+            href={node.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${
+              isDarkMode ? 'text-green-400 hover:text-green-300' : 'text-green-600 hover:text-green-700'
+            } transition-colors duration-200`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {node.name}
+          </a>
+        ) : (
+          <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>{node.name}</span>
+        )}
+      </div>
+      <AnimatePresence>
+        {isOpen && hasChildren && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {node.children!.map((child) => (
+              <TreeNode key={child.id} node={child} level={level + 1} isDarkMode={isDarkMode} />
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
-    <AnimatePresence>
-      {isOpen && hasChildren && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          exit={{ opacity: 0, height: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          {node.children!.map((child) => (
-            <TreeNode key={child.id} node={child} level={level + 1} isDarkMode={isDarkMode} />
-          ))}
-        </motion.div>
-      )}
-    </AnimatePresence>
-  </div>
-)
-}
+  );
+};
 
 // Types
 type Project = {
@@ -379,7 +394,7 @@ export default function LandingPage() {
         }
       }
     }, 100)
-
+  
     return () => clearTimeout(timer)
   }, [fullText, index, isDeleting])
 

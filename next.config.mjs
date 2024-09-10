@@ -1,4 +1,9 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
-
-export default nextConfig;
+const nextConfig = {
+    reactStrictMode: true,
+    images: {
+      domains: ['hebbkx1anhila5yf.public.blob.vercel-storage.com'],
+    },
+  }
+  
+  module.exports = nextConfig
