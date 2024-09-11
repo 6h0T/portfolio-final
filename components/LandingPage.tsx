@@ -330,11 +330,11 @@ const TypewriterEffectSmooth: React.FC<TypewriterEffectSmoothProps> = ({ words }
 
   useEffect(() => {
     const word = words[currentWordIndex].text
-    const delay = isDeleting ? 300 : 400
+    const delay = isDeleting ? 100 : 150
 
     const timer = setTimeout(() => {
       if (!isDeleting && currentText === word) {
-        setTimeout(() => setIsDeleting(true), 2000)
+        setTimeout(() => setIsDeleting(true), 1000)
       } else if (isDeleting && currentText === '') {
         setIsDeleting(false)
         setCurrentWordIndex((prevIndex) => (prevIndex + 1) % words.length)
