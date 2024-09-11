@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { Card } from "@/components/ui/card"
 //import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Home, BookOpen, Mail, Moon, Sun, DownloadIcon, ChevronRight, ChevronDown, Box, Globe, Users, Layers, ArrowDown } from 'lucide-react'
+import { Home, X, Menu, BookOpen, Mail, Moon, Sun, DownloadIcon, ChevronRight, ChevronDown, Box, Globe, Users, Layers, ArrowDown } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
@@ -391,7 +391,7 @@ export default function LandingPage() {
   const portfolioRef = useRef<HTMLDivElement>(null)
   const contactRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
-
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"]
@@ -399,7 +399,9 @@ export default function LandingPage() {
 
   const heroOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0])
   const heroScale = useTransform(scrollYProgress, [0, 0.25], [1, 0.8])
-
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen)
+  }
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!isDeleting && index <= fullText.length) {
@@ -553,7 +555,48 @@ export default function LandingPage() {
 
     return () => window.removeEventListener('resize', setVh)
   }, [])
-
+  const MobileMenu = () => (
+    <motion.div 
+      className={`fixed top-0 right-0 h-screen w-64 bg-white dark:bg-gray-800 z-50 shadow-lg transform ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out`}
+      initial={false}
+      animate={{ x: isMobileMenuOpen ? 0 : '100%' }}
+    >
+      <div className="flex flex-col h-full p-4">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="self-end mb-8"
+          onClick={toggleMobileMenu}
+        >
+          <X className="h-6 w-6" />
+        </Button>
+        {['home', 'knowledge', 'portfolio', 'contact'].map((section) => (
+          <Button
+            key={section}
+            variant="ghost"
+            className={`justify-start mb-4 ${
+              activeSection === section
+                ? isDarkMode
+                  ? 'bg-[#4CAF50]/20 text-[#4CAF50]'
+                  : 'bg-[#1a1a1a]/20 text-[#1a1a1a]'
+                : ''
+            }`}
+            onClick={() => {
+              scrollToSection(section === 'home' ? homeRef : section === 'knowledge' ? knowledgeRef : section === 'portfolio' ? portfolioRef : contactRef)
+              setIsMobileMenuOpen(false)
+            }}
+          >
+            {section === 'home' && <Home className="h-5 w-5 mr-2" />}
+            {section === 'knowledge' && <BookOpen className="h-5 w-5 mr-2" />}
+            {section === 'portfolio' && <BookOpen className="h-5 w-5 mr-2" />}
+            {section === 'contact' && <Mail className="h-5 w-5 mr-2" />}
+            {section.charAt(0).toUpperCase() + section.slice(1)}
+          </Button>
+        ))}
+      </div>
+    </motion.div>
+  )
+  
   return (
     <motion.div 
       className={`font-outfit min-h-screen ${isDarkMode ? 'bg-[#1a1a1a] text-gray-100' : 'bg-gradient-to-br from-white via-gray-100 to-gray-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700'} relative`}
@@ -584,6 +627,9 @@ export default function LandingPage() {
           />
         </div>
       )}
+      {/* Mobile Menu */}
+        <MobileMenu />
+
 
       {/* Navigation */}
       <motion.nav 
@@ -687,6 +733,14 @@ export default function LandingPage() {
               <span className="sr-only">Toggle theme</span>
             </Button>
         </div>
+        <Button
+            variant="ghost"
+            size="icon"
+            className="lg:hidden"
+            onClick={toggleMobileMenu}
+          >
+            <Menu className="h-6 w-6" />
+          </Button>
       </motion.nav>
 
       {/* Main content */}
