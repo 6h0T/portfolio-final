@@ -3,10 +3,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { motion, useScroll, useTransform, useAnimation, useInView, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { Card } from "@/components/ui/card"
+//import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Home, BookOpen, Mail, Moon, Sun, DownloadIcon, ExternalLink, ChevronRight, ChevronDown, Box, Globe, Users, Layers, ArrowDown } from 'lucide-react'
+import { Home, BookOpen, Mail, Moon, Sun, DownloadIcon, ChevronRight, ChevronDown, Box, Globe, Users, Layers, ArrowDown } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
@@ -59,18 +59,17 @@ const MagicUIBlurFade: React.FC<{ children: React.ReactNode }> = ({ children }) 
 // CustomTooltip component
 const CustomTooltip: React.FC<{ children: React.ReactNode; content: React.ReactNode }> = ({ children, content }) => {
   const [isVisible, setIsVisible] = useState(false)
-  const [position, setPosition] = useState({ x: 0, y: 0 })
+  const [position, setPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
 
   const handleMouseEnter = (e: React.MouseEvent) => {
     setIsVisible(true)
     updatePosition(e)
   }
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (isVisible) {
-      updatePosition(e)
-    }
-  }
+  const handleMouseMove = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    const { clientX, clientY } = event;
+    setPosition({ x: clientX, y: clientY });
+  };
 
   const updatePosition = (e: React.MouseEvent) => {
     const x = e.clientX + 10
@@ -429,7 +428,6 @@ export default function LandingPage() {
   }, [fullText, index, isDeleting])
 
   const updateActiveSection = () => {
-    const homeTop = homeRef.current?.offsetTop ?? 0
     const knowledgeTop = knowledgeRef.current?.offsetTop ?? 0
     const portfolioTop = portfolioRef.current?.offsetTop ?? 0
     const contactTop = contactRef.current?.offsetTop ?? 0
@@ -913,13 +911,14 @@ export default function LandingPage() {
                     </div>
                     <div className="w-full h-72 rounded-lg overflow-hidden relative group">
                       <div className="absolute inset-x-[10%] bottom-0 w-[80%] h-10 bg-gradient-to-t from-black to-transparent z-10"></div>
-                      <Image 
-                        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/file-442mUV2YUCv1QocduYoUzBJ5a8QaBZ.png" 
-                        alt="Profile of Elio" 
-                        width={300}
-                        height={400}
-                        className="w-full h-full object-cover object-center transition-transform duration-300 ease-in-out group-hover:scale-110"
-                      />
+                      import Image from 'next/image'
+                    <Image 
+                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/file-442mUV2YUCv1QocduYoUzBJ5a8QaBZ.png" 
+                      alt="Profile of Elio" 
+                      width={300}
+                      height={400}
+                      className="w-full h-full object-cover object-center transition-transform duration-300 ease-in-out group-hover:scale-110"
+                    />
                     </div>
                   </div>
                   <Meteors number={20} />
@@ -964,7 +963,7 @@ export default function LandingPage() {
                       ].map((job, index) => (
                         <div key={index} className="flex flex-col">
                           <div className="flex justify-between items-start">
-                            <p className={`text-sm font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} pr-2`}>{job.role}</p>
+                            <p className={ `text-sm font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}pr-2`}>{job.role}</p>
                             <p className={`text-xs font-medium whitespace-nowrap ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{job.period}</p>
                           </div>
                           <div className="flex items-center mt-1">
@@ -1119,7 +1118,7 @@ export default function LandingPage() {
                 <div className="overflow-hidden rounded-[2.5rem] border border-gray-200 bg-white/60 backdrop-blur-xl">
                   <div className="px-6 py-12 sm:p-16 lg:p-24">
                     <div className="flex flex-col items-center justify-center text-center">
-                      <p className="mb-4 text-gray-600 text-sm sm:text-base">
+                    <p className="mb-4 text-gray-600 text-sm sm:text-base">
                         The road to freedom starts from here
                       </p>
                       <TypewriterEffectSmooth words={words} />
