@@ -330,11 +330,11 @@ const TypewriterEffectSmooth: React.FC<TypewriterEffectSmoothProps> = ({ words }
 
   useEffect(() => {
     const word = words[currentWordIndex].text
-    const delay = isDeleting ? 100 : 150
+    const delay = isDeleting ? 90 : 100
 
     const timer = setTimeout(() => {
       if (!isDeleting && currentText === word) {
-        setTimeout(() => setIsDeleting(true), 600)
+        setTimeout(() => setIsDeleting(true), 400)
       } else if (isDeleting && currentText === '') {
         setIsDeleting(false)
         setCurrentWordIndex((prevIndex) => (prevIndex + 1) % words.length)
@@ -510,17 +510,14 @@ export default function LandingPage() {
   }, [isDarkMode])
 
   useEffect(() => {
-    setTheme('light')
-  }, [setTheme])
-
-  useEffect(() => {
     setIsDarkMode(theme === 'dark')
   }, [theme])
 
-const handleToggleTheme = () => {
-  const newTheme = isDarkMode ? 'light' : 'dark'
-  setTheme(newTheme)
-}
+  const handleToggleTheme = () => {
+    const newTheme = isDarkMode ? 'light' : 'dark'
+    setTheme(newTheme)
+    setIsDarkMode(!isDarkMode)
+  }
 
   function scrollToSection(ref: React.RefObject<HTMLElement>) {
     ref.current?.scrollIntoView({ behavior: 'smooth' })
