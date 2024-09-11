@@ -404,10 +404,6 @@ export default function LandingPage() {
   const heroScale = useTransform(scrollYProgress, [0, 0.25], [1, 0.8])
 
   useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  useEffect(() => {
     const timer = setTimeout(() => {
       if (!isDeleting && index <= fullText.length) {
         setText(fullText.slice(0, index))
@@ -517,8 +513,9 @@ export default function LandingPage() {
   }, [isDarkMode])
 
   const handleToggleTheme = () => {
+    const newTheme = isDarkMode ? 'light' : 'dark'
+    setTheme(newTheme)
     setIsDarkMode(!isDarkMode)
-    setTheme(isDarkMode ? 'light' : 'dark')
   }
 
   const scrollToSection = (ref: React.RefObject<HTMLElement>) => {
@@ -906,7 +903,7 @@ export default function LandingPage() {
                   <div className="relative z-10 h-full flex flex-col justify-between space-y-4">
                     <div>
                       <h3 className={`text-xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>My name is Elio</h3>
-                      <p className={`mb-4 font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>But you can call me gh0t!</p>
+                      <p className={ `mb-4 font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>But you can call me gh0t!</p>
                       <p className={`font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>Grab my <a href="mailto:eliolaurencio@gmail.com" className={`underline hover:text-[#D1C3B1] transition-colors`}>email</a> and get in touch</p>
                     </div>
                     <div className="w-full h-72 rounded-lg overflow-hidden relative group">
@@ -963,11 +960,11 @@ export default function LandingPage() {
                       ].map((job, index) => (
                         <div key={index} className="flex flex-col">
                           <div className="flex justify-between items-start">
-                            <p className={ `text-sm font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}pr-2`}>{job.role}</p>
+                          <p className={`text-sm font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} pr-2`}>{job.role}</p>
                             <p className={`text-xs font-medium whitespace-nowrap ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{job.period}</p>
                           </div>
                           <div className="flex items-center mt-1">
-                            <p className={`text-xs font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{job.company}</p>
+                          <p className={`text-xs font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{job.company}</p>
                             {job.remote && (
                               <span className={`ml-2 text-xs font-medium ${
                                 isDarkMode 
