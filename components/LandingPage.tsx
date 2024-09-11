@@ -384,8 +384,6 @@ export default function LandingPage() {
   const [isDeleting, setIsDeleting] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(false)
-  const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
 
   const containerRef = useRef<HTMLDivElement>(null)
@@ -514,7 +512,7 @@ export default function LandingPage() {
 
   const handleToggleTheme = () => {
     const newTheme = isDarkMode ? 'light' : 'dark'
-    setTheme(newTheme)
+    useTheme()
     setIsDarkMode(!isDarkMode)
   }
 
