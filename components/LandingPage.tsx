@@ -10,7 +10,6 @@ import { Home, BookOpen, Mail, Moon, Sun, DownloadIcon, ChevronRight, ChevronDow
 import { useTheme } from 'next-themes'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
-import { cn } from "@/lib/utils"
 
 // Meteors component
 const Meteors = ({ number }: { number: number }) => {
@@ -385,7 +384,7 @@ export default function LandingPage() {
   const [scrolled, setScrolled] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
-
+  const { theme, setTheme } = useTheme ( )
   const containerRef = useRef<HTMLDivElement>(null)
   const homeRef = useRef<HTMLDivElement>(null)
   const knowledgeRef = useRef<HTMLDivElement>(null)
@@ -510,13 +509,17 @@ export default function LandingPage() {
     }
   }, [isDarkMode])
 
+  useEffect(() => {
+    setIsDarkMode(theme === 'dark')
+  }, [theme])
+
   const handleToggleTheme = () => {
     const newTheme = isDarkMode ? 'light' : 'dark'
-    UseTheme()
+    setTheme(newTheme)
     setIsDarkMode(!isDarkMode)
   }
 
-  const scrollToSection = (ref: React.RefObject<HTMLElement>) => {
+  function scrollToSection(ref: React.RefObject<HTMLElement>) {
     ref.current?.scrollIntoView({ behavior: 'smooth' })
   }
 
@@ -672,18 +675,18 @@ export default function LandingPage() {
             Contact
           </Button>
           <Button
-            variant="ghost"
-            size="icon"
-            onClick={handleToggleTheme}
-            className={`rounded-full ${isDarkMode ? 'text-gray-300 hover:text-[#4CAF50]' : 'text-[#1a1a1a] hover:text-[#1a1a1a]'} transition-colors duration-300`}
-          >
-            {isDarkMode ? (
-              <Moon className="h-[1.2rem] w-[1.2rem]" />
-            ) : (
-              <Sun className="h-[1.2rem] w-[1.2rem]" />
-            )}
-            <span className="sr-only">Toggle theme</span>
-          </Button>
+              variant="ghost"
+              size="icon"
+              onClick={handleToggleTheme}
+              className={`rounded-full ${isDarkMode ? 'text-gray-300 hover:text-[#4CAF50]' : 'text-[#1a1a1a] hover:text-[#1a1a1a]'} transition-colors duration-300`}
+            >
+              {isDarkMode ? (
+                <Moon className="h-[1.2rem] w-[1.2rem]" />
+              ) : (
+                <Sun className="h-[1.2rem] w-[1.2rem]" />
+              )}
+              <span className="sr-only">Toggle theme</span>
+            </Button>
         </div>
       </motion.nav>
 
@@ -735,7 +738,7 @@ export default function LandingPage() {
                   }
                 }}
               >
-                Hi, I'm <span className={`${isDarkMode ? 'text-[#4CAF50]' : 'text-[#2A5E34]'} animate-fade animate-once animate-delay-500 animate-ease-in`}>
+                Hi, Im <span className={`${isDarkMode ? 'text-[#4CAF50]' : 'text-[#2A5E34]'} animate-fade animate-once animate-delay-500 animate-ease-in`}>
                   Elio
                 </span>
               </motion.h1>
@@ -906,7 +909,7 @@ export default function LandingPage() {
                     </div>
                     <div className="w-full h-72 rounded-lg overflow-hidden relative group">
                       <div className="absolute inset-x-[10%] bottom-0 w-[80%] h-10 bg-gradient-to-t from-black to-transparent z-10"></div>
-                      import Image from 'next/image'
+                    
                     <Image 
                       src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/file-442mUV2YUCv1QocduYoUzBJ5a8QaBZ.png" 
                       alt="Profile of Elio" 
@@ -931,7 +934,7 @@ export default function LandingPage() {
                 <Card className={`p-6 rounded-xl shadow-lg relative overflow-hidden`} style={getBentoBoxStyle()}>
                   <div className="relative z-10">
                     <h3 className={`text-xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>A little bit about me</h3>
-                    <p className={`mb-4 font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>I'm a graphic designer and web developer with over a decade of experience, specializing in creating innovative visual experiences that blend technology and aesthetics. Since I was 13, I've been immersed in the world of design, constantly evolving and adapting to new technologies.</p>
+                    <p className={`mb-4 font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>Im a graphic designer and web developer with over a decade of experience, specializing in creating innovative visual experiences that blend technology and aesthetics. Since I was 13, Ive been immersed in the world of design, constantly evolving and adapting to new technologies.</p>
                   </div>
                   <Meteors number={20} />
                 </Card>
@@ -1121,7 +1124,7 @@ export default function LandingPage() {
                         <a href="mailto:eliolaurencio@gmail.com" 
                           className="w-40 h-10 rounded-md bg-[#4CAF50] text-white text-sm font-medium transition-colors hover:bg-gray-700 flex items-center justify-center"
                         >
-                          Let's have a chat
+                          Lets have a chat
                         </a>
                       </div>
                     </div>
