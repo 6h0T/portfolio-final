@@ -1,7 +1,7 @@
 'use client'
 
+import React, { useState, useEffect, useRef } from 'react'
 import { motion, useScroll, useTransform, useAnimation, useInView, AnimatePresence } from 'framer-motion'
-import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -9,8 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Home, BookOpen, Mail, Moon, Sun, DownloadIcon, ExternalLink, ChevronRight, ChevronDown, Box, Globe, Users, Layers, ArrowDown } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-//import "@/styles/fonts.css"
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { cn } from "@/lib/utils"
 
 // Meteors component
@@ -32,7 +31,7 @@ const Meteors = ({ number }: { number: number }) => {
 }
 
 // MagicUIBlurFade component
-const MagicUIBlurFade = ({ children }: { children: React.ReactNode }) => {
+const MagicUIBlurFade: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: false, amount: 0.1 })
   const controls = useAnimation()
@@ -74,8 +73,8 @@ const CustomTooltip: React.FC<{ children: React.ReactNode; content: React.ReactN
   }
 
   const updatePosition = (e: React.MouseEvent) => {
-    const x = e.clientX + 10 // 10px to the right of the cursor
-    const y = e.clientY - 10 // 10px above the cursor
+    const x = e.clientX + 10
+    const y = e.clientY - 10
     setPosition({ x, y })
   }
 
@@ -124,24 +123,41 @@ const CustomTooltip: React.FC<{ children: React.ReactNode; content: React.ReactN
 }
 
 // TreeNode component
+type CategoryType = 'Graphic Design' | 'Web Design' | 'Flyers' | 'Brand Identity'
+
+interface TreeNodeData {  
+  id: string
+  name: string
+  children?: TreeNodeData[]
+  url?: string
+  category?: CategoryType
+  image?: string
+}
+
+interface TreeNodeProps {
+  node: TreeNodeData
+  level?: number
+  isDarkMode: boolean
+}
+
 const TreeNode: React.FC<TreeNodeProps> = ({ node, level = 0, isDarkMode }) => {
-  const [isOpen, setIsOpen] = useState(level === 0);
-  const hasChildren = node.children && node.children.length > 0;
+  const [isOpen, setIsOpen] = useState(level === 0)
+  const hasChildren = node.children && node.children.length > 0
 
   const getCategoryIcon = (category: CategoryType): React.ReactElement => {
     switch (category) {
       case 'Graphic Design':
-        return <Box className="w-5 h-5 mr-2 text-green-500" />;
+        return <Box className="w-5 h-5 mr-2 text-green-500" />
       case 'Web Design':
-        return <Globe className="w-5 h-5 mr-2 text-green-500" />;
-      case 'User Experience':
-        return <Users className="w-5 h-5 mr-2 text-green-500" />;
+        return <Globe className="w-5 h-5 mr-2 text-green-500" />
+      case 'Flyers':
+        return <Users className="w-5 h-5 mr-2 text-green-500" />
       case 'Brand Identity':
-        return <Layers className="w-5 h-5 mr-2 text-green-500" />;
+        return <Layers className="w-5 h-5 mr-2 text-green-500" />
       default:
-        return <Box className="w-5 h-5 mr-2 text-green-500" />;
+        return <Box className="w-5 h-5 mr-2 text-green-500" />
     }
-  };
+  }
 
   return (
     <div className="select-none text-base font-outfit">
@@ -162,17 +178,25 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node, level = 0, isDarkMode }) => {
           node.category && getCategoryIcon(node.category)
         )}
         {node.url ? (
-          <a
-            href={node.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`${
-              isDarkMode ? 'text-green-400 hover:text-green-300' : 'text-green-600 hover:text-green-700'
-            } transition-colors duration-200`}
-            onClick={(e) => e.stopPropagation()}
+          <CustomTooltip
+            content={
+              <div className="w-[238px] h-[159px]">
+                <img src={node.image} alt={node.name} className="w-full h-full object-cover" />
+              </div>
+            }
           >
-            {node.name}
-          </a>
+            <a
+              href={node.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${
+                isDarkMode ? 'text-green-400 hover:text-green-300' : 'text-green-600 hover:text-green-700'
+              } transition-colors duration-200`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {node.name}
+            </a>
+          </CustomTooltip>
         ) : (
           <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>{node.name}</span>
         )}
@@ -192,60 +216,50 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node, level = 0, isDarkMode }) => {
         )}
       </AnimatePresence>
     </div>
-  );
-};
+  )
+}
 
 // Types
 type Project = {
   id: string
   name: string
   url: string
-  category: 'Graphic Design' | 'Web Design' | 'Flyers' | 'Brand Identity'
+  category: CategoryType
   image: string
-}
-
-type TreeNode = {
-  id: string
-  name: string
-  children?: TreeNode[]
-  url?: string
-  category?: 'Graphic Design' | 'Web Design' | 'Flyers' | 'Brand Identity'
-  image?: string
-  description?: string
 }
 
 // Helper functions
 const fetchProjects = async (): Promise<Project[]> => {
   return [
-    { id: '1', name: 'AiSolves', url: 'https://dribbble.com/shots/24572059-Ai-Solvess', category: 'Web Design', image: 'https://cdn.dribbble.com/userupload/12037524/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300',},
-    { id: '2', name: 'Aleatory', url: 'https://dribbble.com/shots/24572108-Aleatory', category: 'Web Design', image: 'https://cdn.dribbble.com/userupload/12037573/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300',},
-    { id: '3', name: 'Smartpro', url: 'https://www.behance.net/gallery/176340759/Catalogo-de-producto-SmartPro', category: 'Brand Identity', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/35f9f9176340759.64c7e7a9e6f11.jpg', },
-    { id: '4', name: 'Evolution', url: 'https://www.behance.net/gallery/181161137/Evolution', category: 'Graphic Design', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/d46d7e181161137.651a9f1f6ff91.jpg',},
-    { id: '5', name: 'Vynil Cover', url: 'https://dribbble.com/shots/22212739-Cat-with-drip', category: 'Graphic Design', image: 'https://cdn.dribbble.com/userupload/7743321/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300'},
-    { id: '6', name: 'Touché Sports', url: 'https://www.behance.net/gallery/145489119/Touch-Sports', category: 'Graphic Design', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/b4b51e145489119.62a0d2a0e3a1f.jpg',},
-    { id: '7', name: 'Miche Barbershop', url: 'https://www.behance.net/gallery/176339339/Miche-Barbershop', category: 'Brand Identity', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/c1f5e9176339339.64c7e5f0a0c1a.jpg', },
-    { id: '8', name: 'Valkiria', url: 'https://www.behance.net/gallery/142578631/Valkiria', category: 'Brand Identity', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/b8e51b142578631.626b0c3f4fc5f.jpg',},
-    { id: '9', name: 'Hefesto Vynil Cover', url: 'https://www.behance.net/gallery/142401081/Hefesto', category: 'Graphic Design', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/a75baf142401081.6266f2c6a40e4.jpg',},
-    { id: '10', name: 'gh0ts portfolio', url: 'https://gh0t.art', category: 'Web Design', image: '/placeholder.svg?height=159&width=238',},
-    { id: '11', name: 'Suburbia', url: 'https://www.behance.net/gallery/142399405/Suburbia', category: 'Flyers', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/b1c72e142399405.6266edb8a2cc7.jpg',},
-    { id: '12', name: 'Dreamers', url: 'https://dribbble.com/shots/18051117-Dreamers', category: 'Flyers', image: 'https://cdn.dribbble.com/userupload/7743321/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300'},
-    { id: '13', name: 'Graphic design is my passion', url: 'https://dribbble.com/shots/18051122-Graphic-design-is-my-passion', category: 'Flyers', image: 'https://cdn.dribbble.com/users/1803663/screenshots/18051122/media/c9c4d2d2d2d2d2d2d2d2d2d2d2d2d2d2.jpg?resize=400x300',},
-    { id: '14', name: 'Techno party', url: 'https://dribbble.com/shots/22212787-TECHNO-FLYER', category: 'Flyers', image: 'https://cdn.dribbble.com/userupload/7743369/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300', },
-    { id: '15', name: 'Emotions', url: 'https://dribbble.com/shots/22280887-Emotions', category: 'Flyers', image: 'https://cdn.dribbble.com/userupload/7811517/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300',},
-    { id: '16', name: 'Emotions pt2', url: 'https://dribbble.com/shots/22401925-Casual-wednesday-art', category: 'Flyers', image: 'https://cdn.dribbble.com/userupload/7932463/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300',},
-    { id: '17', name: 'Teen Age Mutants', url: 'https://dribbble.com/shots/24571936-Teen-age-mutants', category: 'Flyers', image: 'https://cdn.dribbble.com/userupload/12037401/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300',},
-    { id: '18', name: 'Brokers Ads', url: 'https://www.behance.net/gallery/176392849/Landing-BrokersAds', category: 'Flyers', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/35f9f9176392849.64c8b1a9e6f11.jpg',},
-    { id: '19', name: 'Seneca insumos', url: 'https://dribbble.com/shots/24572243-S-neca-Insumos', category: 'Brand Identity', image: 'https://cdn.dribbble.com/userupload/12037708/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300',},
-    { id: '20', name: 'S.ph', url: 'https://dribbble.com/shots/24572360-S-ph', category: 'Brand Identity', image: 'https://cdn.dribbble.com/userupload/12037825/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300',},
-    { id: '21', name: 'LVM AUTOMOTORES', url: 'https://dribbble.com/shots/24572419-LVM-Automotores', category: 'Brand Identity', image: 'https://cdn.dribbble.com/userupload/12037884/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300',},
-    { id: '22', name: 'Fundación claves', url: 'https://www.behance.net/gallery/183766575/Fundacion-Claves', category: 'Brand Identity', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/35f9f9183766575.654a9f1f6ff91.jpg',},
-    { id: '23', name: 'Loyal Insumos', url: 'https://www.behance.net/gallery/183948887/Tarjetas-Personales', category: 'Brand Identity', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/35f9f9183948887.654f9f1f6ff91.jpg',},
+    { id: '1', name: 'AiSolves', url: 'https://dribbble.com/shots/24572059-Ai-Solvess', category: 'Web Design', image: 'https://cdn.dribbble.com/userupload/12037524/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300' },
+    { id: '2', name: 'Aleatory', url: 'https://dribbble.com/shots/24572108-Aleatory', category: 'Web Design', image: 'https://cdn.dribbble.com/userupload/12037573/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300' },
+    { id: '3', name: 'Smartpro', url: 'https://www.behance.net/gallery/176340759/Catalogo-de-producto-SmartPro', category: 'Brand Identity', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/35f9f9176340759.64c7e7a9e6f11.jpg' },
+    { id: '4', name: 'Evolution', url: 'https://www.behance.net/gallery/181161137/Evolution', category: 'Graphic Design', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/d46d7e181161137.651a9f1f6ff91.jpg' },
+    { id: '5', name: 'Vynil Cover', url: 'https://dribbble.com/shots/22212739-Cat-with-drip', category: 'Graphic Design', image: 'https://cdn.dribbble.com/userupload/7743321/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300' },
+    { id: '6', name: 'Touché Sports', url: 'https://www.behance.net/gallery/145489119/Touch-Sports', category: 'Graphic Design', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/b4b51e145489119.62a0d2a0e3a1f.jpg' },
+    { id: '7', name: 'Miche Barbershop', url: 'https://www.behance.net/gallery/176339339/Miche-Barbershop', category: 'Brand Identity', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/c1f5e9176339339.64c7e5f0a0c1a.jpg' },
+    { id: '8', name: 'Valkiria', url: 'https://www.behance.net/gallery/142578631/Valkiria', category: 'Brand Identity', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/b8e51b142578631.626b0c3f4fc5f.jpg' },
+    { id: '9', name: 'Hefesto Vynil Cover', url: 'https://www.behance.net/gallery/142401081/Hefesto', category: 'Graphic Design', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/a75baf142401081.6266f2c6a40e4.jpg' },
+    { id: '10', name: 'gh0ts portfolio', url: 'https://gh0t.art', category: 'Web Design', image: '/placeholder.svg?height=159&width=238' },
+    { id: '11', name: 'Suburbia', url: 'https://www.behance.net/gallery/142399405/Suburbia', category: 'Flyers', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/b1c72e142399405.6266edb8a2cc7.jpg' },
+    { id: '12', name: 'Dreamers', url: 'https://dribbble.com/shots/18051117-Dreamers', category: 'Flyers', image: 'https://cdn.dribbble.com/userupload/7743321/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300' },
+    { id: '13', name: 'Graphic design is my passion', url: 'https://dribbble.com/shots/18051122-Graphic-design-is-my-passion', category: 'Flyers', image: 'https://cdn.dribbble.com/users/1803663/screenshots/18051122/media/c9c4d2d2d2d2d2d2d2d2d2d2d2d2d2d2.jpg?resize=400x300' },
+    { id: '14', name: 'Techno party', url: 'https://dribbble.com/shots/22212787-TECHNO-FLYER', category: 'Flyers', image: 'https://cdn.dribbble.com/userupload/7743369/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300' },
+    { id: '15', name: 'Emotions', url: 'https://dribbble.com/shots/22280887-Emotions', category: 'Flyers', image: 'https://cdn.dribbble.com/userupload/7811517/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300' },
+    { id: '16', name: 'Emotions pt2', url: 'https://dribbble.com/shots/22401925-Casual-wednesday-art', category: 'Flyers', image: 'https://cdn.dribbble.com/userupload/7932463/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300'} ,
+    { id: '17', name: 'Teen Age Mutants', url: 'https://dribbble.com/shots/24571936-Teen-age-mutants', category: 'Flyers', image: 'https://cdn.dribbble.com/userupload/12037401/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300' },
+    { id: '18', name: 'Brokers Ads', url: 'https://www.behance.net/gallery/176392849/Landing-BrokersAds', category: 'Web Design', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/35f9f9176392849.64c8b1a9e6f11.jpg' },
+    { id: '19', name: 'Seneca insumos', url: 'https://dribbble.com/shots/24572243-S-neca-Insumos', category: 'Brand Identity', image: 'https://cdn.dribbble.com/userupload/12037708/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300' },
+    { id: '20', name: 'S.ph', url: 'https://dribbble.com/shots/24572360-S-ph', category: 'Brand Identity', image: 'https://cdn.dribbble.com/userupload/12037825/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300' },
+    { id: '21', name: 'LVM AUTOMOTORES', url: 'https://dribbble.com/shots/24572419-LVM-Automotores', category: 'Brand Identity', image: 'https://cdn.dribbble.com/userupload/12037884/file/original-c0c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.png?resize=400x300' },
+    { id: '22', name: 'Fundación claves', url: 'https://www.behance.net/gallery/183766575/Fundacion-Claves', category: 'Brand Identity', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/35f9f9183766575.654a9f1f6ff91.jpg' },
+    { id: '23', name: 'Loyal Insumos', url: 'https://www.behance.net/gallery/183948887/Tarjetas-Personales', category: 'Brand Identity', image: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/35f9f9183948887.654f9f1f6ff91.jpg' },
   ]
 }
 
-const createTreeStructure = (projects: Project[]): TreeNode => {
-  const root: TreeNode = { id: 'root', name: 'Portfolio', children: [] }
-  const categories: { [key: string]: TreeNode } = {
+const createTreeStructure = (projects: Project[]): TreeNodeData => {
+  const root: TreeNodeData = { id: 'root', name: 'Portfolio', children: [] }
+  const categories: { [key in CategoryType]: TreeNodeData } = {
     'Graphic Design': { id: 'graphic-design', name: 'Graphic Design', children: [] },
     'Web Design': { id: 'web-design', name: 'Web Design', children: [] },
     'Flyers': { id: 'flyers', name: 'Flyers', children: [] },
@@ -253,13 +267,12 @@ const createTreeStructure = (projects: Project[]): TreeNode => {
   }
 
   projects.forEach((project) => {
-    const node: TreeNode = {
+    const node: TreeNodeData = {
       id: project.id,
       name: project.name,
       url: project.url,
       category: project.category,
       image: project.image,
-      description: project.description,
     }
     categories[project.category].children!.push(node)
   })
@@ -270,7 +283,7 @@ const createTreeStructure = (projects: Project[]): TreeNode => {
 
 // PortfolioTree component
 const PortfolioTree: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => {
-  const [treeData, setTreeData] = useState<TreeNode | null>(null)
+  const [treeData, setTreeData] = useState<TreeNodeData | null>(null)
 
   useEffect(() => {
     const loadProjects = async () => {
@@ -302,33 +315,50 @@ const PortfolioTree: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => {
   )
 }
 
-const TypewriterEffectSmooth = ({ words }) => {
+// TypeWriter effect
+interface Word {
+  text: string
+  className?: string
+}
+
+interface TypewriterEffectSmoothProps {
+  words: Word[]
+}
+
+const TypewriterEffectSmooth: React.FC<TypewriterEffectSmoothProps> = ({ words }) => {
   const [currentWordIndex, setCurrentWordIndex] = useState(0)
   const [currentText, setCurrentText] = useState('')
   const [isDeleting, setIsDeleting] = useState(false)
 
   useEffect(() => {
     const word = words[currentWordIndex].text
-    const delay = isDeleting ? 300 : 400 // Increased delay for slower animation
+    const delay = isDeleting ? 300 : 400
 
-    if (!isDeleting && currentText === word) {
-      setTimeout(() => setIsDeleting(true), 2000) // Increased pause at the end of the word
-    } else if (isDeleting && currentText === '') {
-      setIsDeleting(false)
-      setCurrentWordIndex((prevIndex) => (prevIndex + 1) % words.length)
-    } else {
-      setTimeout(() => {
-        setCurrentText(prev => 
+    const timer = setTimeout(() => {
+      if (!isDeleting && currentText === word) {
+        setTimeout(() => setIsDeleting(true), 2000)
+      } else if (isDeleting && currentText === '') {
+        setIsDeleting(false)
+        setCurrentWordIndex((prevIndex) => (prevIndex + 1) % words.length)
+      } else {
+        setCurrentText((prev) =>
           isDeleting ? prev.slice(0, -1) : word.slice(0, prev.length + 1)
         )
-      }, delay)
-    }
+      }
+    }, delay)
+
+    return () => clearTimeout(timer)
   }, [currentText, isDeleting, currentWordIndex, words])
 
   return (
     <div className="flex flex-wrap text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-center text-gray-800">
       {words.map((word, index) => (
-        <span key={index} className={`mr-2 ${index === currentWordIndex ? word.className || '' : 'opacity-50'}`}>
+        <span
+          key={index}
+          className={`mr-2 ${
+            index === currentWordIndex ? word.className || '' : 'opacity-50'
+          }`}
+        >
           {index === currentWordIndex ? currentText : word.text}
         </span>
       ))}
@@ -336,7 +366,7 @@ const TypewriterEffectSmooth = ({ words }) => {
   )
 }
 
-const BackgroundAnimation = () => {
+const BackgroundAnimation: React.FC = () => {
   return (
     <div className="absolute inset-0 overflow-hidden">
       <div className="absolute inset-0 flex items-center justify-center">
@@ -359,11 +389,11 @@ export default function LandingPage() {
   const [mounted, setMounted] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
 
-  const containerRef = useRef(null)
-  const homeRef = useRef(null)
-  const knowledgeRef = useRef(null)
-  const portfolioRef = useRef(null)
-  const contactRef = useRef(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const homeRef = useRef<HTMLDivElement>(null)
+  const knowledgeRef = useRef<HTMLDivElement>(null)
+  const portfolioRef = useRef<HTMLDivElement>(null)
+  const contactRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   const { scrollYProgress } = useScroll({
@@ -399,23 +429,23 @@ export default function LandingPage() {
   }, [fullText, index, isDeleting])
 
   const updateActiveSection = () => {
-    const homeTop = homeRef.current?.offsetTop ?? 0;
-    const knowledgeTop = knowledgeRef.current?.offsetTop ?? 0;
-    const portfolioTop = portfolioRef.current?.offsetTop ?? 0;
-    const contactTop = contactRef.current?.offsetTop ?? 0;
+    const homeTop = homeRef.current?.offsetTop ?? 0
+    const knowledgeTop = knowledgeRef.current?.offsetTop ?? 0
+    const portfolioTop = portfolioRef.current?.offsetTop ?? 0
+    const contactTop = contactRef.current?.offsetTop ?? 0
 
-    const scrollPosition = window.scrollY + window.innerHeight / 2;
+    const scrollPosition = window.scrollY + window.innerHeight / 2
 
     if (scrollPosition < knowledgeTop) {
-        setActiveSection('home');
+      setActiveSection('home')
     } else if (scrollPosition < portfolioTop) {
-        setActiveSection('knowledge');
+      setActiveSection('knowledge')
     } else if (scrollPosition < contactTop) {
-        setActiveSection('portfolio');
+      setActiveSection('portfolio')
     } else {
-        setActiveSection('contact');
+      setActiveSection('contact')
     }
-};
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -428,7 +458,6 @@ export default function LandingPage() {
   }, [])
 
   useEffect(() => {
-    // Set initial active section on mount
     updateActiveSection()
   }, [])
 
@@ -619,7 +648,7 @@ export default function LandingPage() {
             variant="ghost" 
             size="sm" 
             className={`rounded-full ${
-              activeSection === 'My work'
+              activeSection === 'portfolio'
                 ? isDarkMode
                   ? 'bg-[#4CAF50]/20 text-[#4CAF50]'
                   : 'bg-[#1a1a1a]/20 text-[#1a1a1a]'
@@ -649,21 +678,19 @@ export default function LandingPage() {
             <Mail className="h-5 w-5 mr-2" />
             Contact
           </Button>
-          <div className="flex items-center space-x-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleToggleTheme}
-              className={`rounded-full ${isDarkMode ? 'text-gray-300 hover:text-[#4CAF50]' : 'text-[#1a1a1a] hover:text-[#1a1a1a]'} transition-colors duration-300`}
-            >
-              {isDarkMode ? (
-                <Moon className="h-[1.2rem] w-[1.2rem]" />
-              ) : (
-                <Sun className="h-[1.2rem] w-[1.2rem]" />
-              )}
-              <span className="sr-only">Toggle theme</span>
-            </Button>
-          </div>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleToggleTheme}
+            className={`rounded-full ${isDarkMode ? 'text-gray-300 hover:text-[#4CAF50]' : 'text-[#1a1a1a] hover:text-[#1a1a1a]'} transition-colors duration-300`}
+          >
+            {isDarkMode ? (
+              <Moon className="h-[1.2rem] w-[1.2rem]" />
+            ) : (
+              <Sun className="h-[1.2rem] w-[1.2rem]" />
+            )}
+            <span className="sr-only">Toggle theme</span>
+          </Button>
         </div>
       </motion.nav>
 
@@ -886,9 +913,11 @@ export default function LandingPage() {
                     </div>
                     <div className="w-full h-72 rounded-lg overflow-hidden relative group">
                       <div className="absolute inset-x-[10%] bottom-0 w-[80%] h-10 bg-gradient-to-t from-black to-transparent z-10"></div>
-                      <img 
+                      <Image 
                         src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/file-442mUV2YUCv1QocduYoUzBJ5a8QaBZ.png" 
                         alt="Profile of Elio" 
+                        width={300}
+                        height={400}
                         className="w-full h-full object-cover object-center transition-transform duration-300 ease-in-out group-hover:scale-110"
                       />
                     </div>
@@ -935,7 +964,7 @@ export default function LandingPage() {
                       ].map((job, index) => (
                         <div key={index} className="flex flex-col">
                           <div className="flex justify-between items-start">
-                            <p className={`text-sm font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}pr-2`}>{job.role}</p>
+                            <p className={`text-sm font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} pr-2`}>{job.role}</p>
                             <p className={`text-xs font-medium whitespace-nowrap ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{job.period}</p>
                           </div>
                           <div className="flex items-center mt-1">
@@ -1095,10 +1124,10 @@ export default function LandingPage() {
                       </p>
                       <TypewriterEffectSmooth words={words} />
                       <div className="mt-8" >
-                      <a href="mailto:eliolaurencio@gmail.com" 
-                          className=" w-40 h-10 rounded-md bg-[#4CAF50] text-white text-sm font-medium transition-colors hover:bg-gray-700 flex items-center justify-center"
+                        <a href="mailto:eliolaurencio@gmail.com" 
+                          className="w-40 h-10 rounded-md bg-[#4CAF50] text-white text-sm font-medium transition-colors hover:bg-gray-700 flex items-center justify-center"
                         >
-                          Lets have a chat
+                          Let's have a chat
                         </a>
                       </div>
                     </div>
