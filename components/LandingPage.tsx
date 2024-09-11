@@ -538,8 +538,7 @@ export default function LandingPage() {
   }
 
   const words = [
-    { text: "Build,create,deploy" },
-    { text: "awesome websites" },
+    { text: "Build,create,deploy awesome websites" },
     { text: "and grow ur company", className: "text-[#4CAF50]" },
   ]
 
