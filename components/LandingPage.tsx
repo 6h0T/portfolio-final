@@ -512,7 +512,7 @@ export default function LandingPage() {
 
   const handleToggleTheme = () => {
     const newTheme = isDarkMode ? 'light' : 'dark'
-    useTheme()
+    UseTheme()
     setIsDarkMode(!isDarkMode)
   }
 
