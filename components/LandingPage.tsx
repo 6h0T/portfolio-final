@@ -335,7 +335,7 @@ const TypewriterEffectSmooth: React.FC<TypewriterEffectSmoothProps> = ({ words }
 
     const timer = setTimeout(() => {
       if (!isDeleting && currentText === word) {
-        setTimeout(() => setIsDeleting(true), 600)
+        setTimeout(() => setIsDeleting(true), 500)
       } else if (isDeleting && currentText === '') {
         setIsDeleting(false)
         setCurrentWordIndex((prevIndex) => (prevIndex + 1) % words.length)
@@ -543,9 +543,7 @@ function scrollToSection(ref: React.RefObject<HTMLElement>) {
   }
 
   const words = [
-    { text: "Build,create,deploy" },
-    { text: "awesome websites" },
-    { text: "and grow ur company", className: "text-[#4CAF50]" },
+    { text: "Build,create,deploy awesome websites and grow ur company" },
   ]
 
   useEffect(() => {
@@ -1077,7 +1075,7 @@ function scrollToSection(ref: React.RefObject<HTMLElement>) {
                 <Card className={`p-4 sm:p-6 rounded-xl shadow-lg relative overflow-hidden`} style={getBentoBoxStyle()}>
                   <div className="relative z-10">
                     <h3 className={`text-lg sm:text-xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>A little bit about me</h3>
-                    <p className={`mb-4 font-medium text-sm sm:text-base ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>I'm a graphic designer and web developer with over a decade of experience, specializing in creating innovative visual experiences that blend technology and aesthetics. Since I was 13, I've been immersed in the world of design, constantly evolving and adapting to new technologies.</p>
+                    <p className={`mb-4 font-medium text-sm sm:text-base ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>Im a graphic designer and web developer with over a decade of experience, specializing in creating innovative visual experiences that blend technology and aesthetics. Since I was 13, Ive been immersed in the world of design, constantly evolving and adapting to new technologies.</p>
                   </div>
                   <Meteors number={20} />
                 </Card>
@@ -1260,7 +1258,7 @@ function scrollToSection(ref: React.RefObject<HTMLElement>) {
                   <div className="px-6 py-12 sm:p-16 lg:p-24">
                     <div className="flex flex-col items-center justify-center text-center">
                     <p className="mb-4 text-gray-600 text-sm sm:text-base">
-                        The road to freedom starts from here
+                        The road of improving ur brand starts here.
                       </p>
                       <TypewriterEffectSmooth words={words} />
                       <div className="mt-8" >
