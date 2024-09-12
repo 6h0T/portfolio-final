@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/card"
 //import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Home, BookOpen, Mail, Moon, Sun, DownloadIcon, ChevronRight, ChevronDown, Box, Globe, Users, Layers, ArrowDown } from 'lucide-react'
+import { useTheme } from 'next-themes'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 
@@ -329,7 +330,7 @@ const TypewriterEffectSmooth: React.FC<TypewriterEffectSmoothProps> = ({ words }
 
   useEffect(() => {
     const word = words[currentWordIndex].text
-    const delay = isDeleting ? 50 : 80
+    const delay = isDeleting ? 100 : 150
 
     const timer = setTimeout(() => {
       if (!isDeleting && currentText === word) {
@@ -383,6 +384,7 @@ export default function LandingPage() {
   const [scrolled, setScrolled] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
+  const { theme, setTheme } = useTheme ( )
   const containerRef = useRef<HTMLDivElement>(null)
   const homeRef = useRef<HTMLDivElement>(null)
   const knowledgeRef = useRef<HTMLDivElement>(null)
@@ -449,6 +451,7 @@ export default function LandingPage() {
   useEffect(() => {
     updateActiveSection()
   }, [])
+
   useEffect(() => {
     if (canvasRef.current) {
       const scene = new THREE.Scene()
@@ -506,14 +509,19 @@ export default function LandingPage() {
     }
   }, [isDarkMode])
 
+  useEffect(() => {
+    setTheme('light')
+  }, [setTheme])
 
-  const handleToggleTheme = () => {
-    setIsDarkMode(prevMode => {
-      const newMode = !prevMode
-      localStorage.setItem('theme', newMode ? 'dark' : 'light')
-      return newMode
-    })
-  }
+  useEffect(() => {
+    setIsDarkMode(theme === 'dark')
+  }, [theme])
+
+const handleToggleTheme = () => {
+  const newTheme = isDarkMode ? 'light' : 'dark'
+  setTheme(newTheme)
+}
+
   function scrollToSection(ref: React.RefObject<HTMLElement>) {
     ref.current?.scrollIntoView({ behavior: 'smooth' })
   }
@@ -533,7 +541,9 @@ export default function LandingPage() {
   }
 
   const words = [
-    { text: "Build,create,deploy awesome websites and grow ur company" }
+    { text: "Build,create,deploy" },
+    { text: "awesome websites" },
+    { text: "and grow ur company", className: "text-[#4CAF50]" },
   ]
 
   useEffect(() => {
@@ -668,18 +678,18 @@ export default function LandingPage() {
             Contact
           </Button>
           <Button
-                variant="ghost"
-                size="icon"
-                onClick={handleToggleTheme}
-                className={`rounded-full ${isDarkMode ? 'text-gray-300 hover:text-[#4CAF50]' : 'text-[#1a1a1a] hover:text-[#1a1a1a]'} transition-colors duration-300`}
-              >
-                {isDarkMode ? (
-                  <Moon className="h-[1.2rem] w-[1.2rem]" />
-                ) : (
-                  <Sun className="h-[1.2rem] w-[1.2rem]" />
-                )}
-                <span className="sr-only">Toggle theme</span>
-              </Button>
+              variant="ghost"
+              size="icon"
+              onClick={handleToggleTheme}
+              className={`rounded-full ${isDarkMode ? 'text-gray-300 hover:text-[#4CAF50]' : 'text-[#1a1a1a] hover:text-[#1a1a1a]'} transition-colors duration-300`}
+            >
+              {isDarkMode ? (
+                <Moon className="h-[1.2rem] w-[1.2rem]" />
+              ) : (
+                <Sun className="h-[1.2rem] w-[1.2rem]" />
+              )}
+              <span className="sr-only">Toggle theme</span>
+            </Button>
         </div>
       </motion.nav>
 
@@ -902,6 +912,7 @@ export default function LandingPage() {
                     </div>
                     <div className="w-full h-72 rounded-lg overflow-hidden relative group">
                       <div className="absolute inset-x-[10%] bottom-0 w-[80%] h-10 bg-gradient-to-t from-black to-transparent z-10"></div>
+                    
                     <Image 
                       src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/file-442mUV2YUCv1QocduYoUzBJ5a8QaBZ.png" 
                       alt="Profile of Elio" 
@@ -1109,7 +1120,7 @@ export default function LandingPage() {
                   <div className="px-6 py-12 sm:p-16 lg:p-24">
                     <div className="flex flex-col items-center justify-center text-center">
                     <p className="mb-4 text-gray-600 text-sm sm:text-base">
-                        The road to improve ur brand starts here
+                        The road to freedom starts from here
                       </p>
                       <TypewriterEffectSmooth words={words} />
                       <div className="mt-8" >
