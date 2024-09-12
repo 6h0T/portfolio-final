@@ -10,7 +10,7 @@ import { Home, X, Menu, BookOpen, Mail, Moon, Sun, DownloadIcon, ChevronRight, C
 import { useTheme } from 'next-themes'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
-
+import { SpeedInsights } from '@vercel/speed-insights/next';
 // Meteors component
 const Meteors = ({ number }: { number: number }) => {
   const meteors = [...Array(number)].map((_, index) => (
@@ -217,7 +217,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node, level = 0, isDarkMode }) => {
     </div>
   )
 }
-
+<SpeedInsights />
 // Types
 type Project = {
   id: string
