@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { Card } from "@/components/ui/card"
 //import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Home, BookOpen, Mail, Moon, Sun, DownloadIcon, ChevronRight, ChevronDown, Box, Globe, Users, Layers, ArrowDown } from 'lucide-react'
+import { Home, X, Menu, BookOpen, Mail, Moon, Sun, DownloadIcon, ChevronRight, ChevronDown, Box, Globe, Users, Layers, ArrowDown } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
@@ -30,6 +30,7 @@ const Meteors = ({ number }: { number: number }) => {
 }
 
 // MagicUIBlurFade component
+
 const MagicUIBlurFade: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: false, amount: 0.1 })
@@ -391,7 +392,7 @@ export default function LandingPage() {
   const portfolioRef = useRef<HTMLDivElement>(null)
   const contactRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
-
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"]
@@ -522,9 +523,10 @@ const handleToggleTheme = () => {
   setTheme(newTheme)
 }
 
-  function scrollToSection(ref: React.RefObject<HTMLElement>) {
-    ref.current?.scrollIntoView({ behavior: 'smooth' })
-  }
+function scrollToSection(ref: React.RefObject<HTMLElement>) {
+  ref.current?.scrollIntoView({ behavior: 'smooth' })
+  setMobileMenuOpen(false)
+}
 
   const getBentoBoxStyle = () => {
     return {
@@ -590,108 +592,247 @@ const handleToggleTheme = () => {
       )}
 
       {/* Navigation */}
-      <motion.nav 
-        className={`fixed left-1/2 transform -translate-x-1/2 z-50 flex justify-center items-center p-2 rounded-full ${
-          isDarkMode 
-            ? 'bg-gradient-to-r from-gray-800/80 to-gray-900/80' 
-            : 'bg-gradient-to-r from-white/80 to-gray-200/80 dark:from-gray-800/80 dark:to-gray-900/80'
-        } backdrop-blur-md shadow-lg transition-all duration-300 ease-out animate-fade-up animate-once animate-delay-150 animate-ease-out animate-alternate`}
-        style={{ 
-          opacity: 0.95,
-          top: scrolled ? '5%' : '15%'
-        }}
-        animate={{
-          top: scrolled ? '5%' : '15%'
-        }}
-        transition={{
-          duration: 0.3,
-          ease: 'easeInOut'
-        }}
+<motion.nav 
+  className={`fixed left-1/2 transform -translate-x-1/2 z-50 flex justify-center items-center p-2 rounded-full ${
+    isDarkMode 
+      ? 'bg-gradient-to-r from-gray-800/80 to-gray-900/80' 
+      : 'bg-gradient-to-r from-white/80 to-gray-200/80 dark:from-gray-800/80 dark:to-gray-900/80'
+  } backdrop-blur-md shadow-lg transition-all duration-300 ease-out animate-fade-up animate-once animate-delay-150 animate-ease-out animate-alternate`}
+  style={{ 
+    opacity: 0.95,
+    top: scrolled ? '5%' : '15%'
+  }}
+  animate={{
+    top: scrolled ? '5%' : '15%'
+  }}
+  transition={{
+    duration: 0.3,
+    ease: 'easeInOut'
+  }}
+>
+  <div className="flex items-center space-x-4">
+    <Button 
+      variant="ghost" 
+      size="sm" 
+      className={`rounded-full ${
+        activeSection === 'home'
+          ? isDarkMode
+            ? 'bg-[#4CAF50]/20 text-[#4CAF50]'
+            : 'bg-[#1a1a1a]/20 text-[#1a1a1a]'
+          : isDarkMode
+            ? 'hover:bg-[#4CAF50]/10 text-gray-300 hover:text-[#4CAF50]'
+            : 'hover:bg-[#1a1a1a]/10 text-[#1a1a1a] hover:text-[#1a1a1a]'
+      } transition-colors duration-300 hidden md:flex`}
+      onClick={() => scrollToSection(homeRef)}
+    >
+      <Home className="h-5 w-5 mr-2" />
+      Home
+    </Button>
+    <Button 
+      variant="ghost" 
+      size="sm" 
+      className={`rounded-full ${
+        activeSection === 'knowledge'
+          ? isDarkMode
+            ? 'bg-[#4CAF50]/20 text-[#4CAF50]'
+            : 'bg-[#1a1a1a]/20 text-[#1a1a1a]'
+          : isDarkMode
+            ? 'hover:bg-[#4CAF50]/10 text-gray-300 hover:text-[#4CAF50]'
+            : 'hover:bg-[#1a1a1a]/10 text-[#1a1a1a] hover:text-[#1a1a1a]'
+      } transition-colors duration-300 hidden md:flex`}
+      onClick={() => scrollToSection(knowledgeRef)}
+    >
+      <BookOpen className="h-5 w-5 mr-2" />
+      About me
+    </Button>
+    <Button 
+      variant="ghost" 
+      size="sm" 
+      className={`rounded-full ${
+        activeSection === 'portfolio'
+          ? isDarkMode
+            ? 'bg-[#4CAF50]/20 text-[#4CAF50]'
+            : 'bg-[#1a1a1a]/20 text-[#1a1a1a]'
+          : isDarkMode
+            ? 'hover:bg-[#4CAF50]/10 text-gray-300 hover:text-[#4CAF50]'
+            : 'hover:bg-[#1a1a1a]/10 text-[#1a1a1a] hover:text-[#1a1a1a]'
+      } transition-colors duration-300 hidden md:flex`}
+      onClick={() => scrollToSection(portfolioRef)}
+    >
+      <BookOpen className="h-5 w-5 mr-2" />
+      Portfolio
+    </Button>
+    <Button 
+      variant="ghost" 
+      size="sm" 
+      className={`rounded-full ${
+        activeSection === 'contact'
+          ? isDarkMode
+            ? 'bg-[#4CAF50] text-white'
+            : 'bg-[#4CAF50] text-white'
+          : isDarkMode
+            ? 'bg-[#4CAF50]/20 text-[#4CAF50] hover:bg-[#4CAF50]/30'
+            : 'bg-[#1a1a1a]/20 text-[#1a1a1a] hover:bg-[#1a1a1a]/30'
+      } transition-colors duration-300`}
+      onClick={() => scrollToSection(contactRef)}
+    >
+      <Mail className="h-5 w-5 mr-2" />
+      Contact
+    </Button>
+    <Button
+      variant="ghost"
+      size="icon"
+      onClick={handleToggleTheme}
+      className={`rounded-full ${isDarkMode ? 'text-gray-300 hover:text-[#4CAF50]' : 'text-[#1a1a1a] hover:text-[#1a1a1a]'} transition-colors duration-300`}
+    >
+      {isDarkMode ? (
+        <Moon className="h-[1.2rem] w-[1.2rem]" />
+      ) : (
+        <Sun className="h-[1.2rem] w-[1.2rem]" />
+      )}
+      <span className="sr-only">Toggle theme</span>
+    </Button>
+    <Button
+      variant="ghost"
+      size="icon"
+      onClick={() => setMobileMenuOpen(true)}
+      className={`rounded-full ${isDarkMode ? 'text-gray-300 hover:text-[#4CAF50]' : 'text-[#1a1a1a] hover:text-[#1a1a1a]'} transition-colors duration-300 md:hidden`}
+    >
+      <Menu className="h-[1.2rem] w-[1.2rem]" />
+      <span className="sr-only">Open menu</span>
+    </Button>
+  </div>
+</motion.nav>
+
+{/* Mobile menu */}
+<AnimatePresence>
+  {mobileMenuOpen && (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 md:hidden"
+    >
+      <motion.div
+        initial={{ x: '100%' }}
+        animate={{ x: 0 }}
+        exit={{ x: '100%' }}
+        transition={{ type: 'tween', duration: 0.3 }}
+        className={`fixed inset-y-0 right-0 w-full max-w-sm ${
+          isDarkMode ? 'bg-gray-900' : 'bg-white'
+        } shadow-xl p-6 flex flex-col justify-between`}
       >
-        <div className="flex items-center space-x-4">
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className={`rounded-full ${
-              activeSection === 'home'
-                ? isDarkMode
-                  ? 'bg-[#4CAF50]/20 text-[#4CAF50]'
-                  : 'bg-[#1a1a1a]/20 text-[#1a1a1a]'
-                : isDarkMode
-                  ? 'hover:bg-[#4CAF50]/10 text-gray-300 hover:text-[#4CAF50]'
-                  : 'hover:bg-[#1a1a1a]/10 text-[#1a1a1a] hover:text-[#1a1a1a]'
-            } transition-colors duration-300`}
-            onClick={() => scrollToSection(homeRef)}
-          >
-            <Home className="h-5 w-5 mr-2" />
-            Home
-          </Button>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className={`rounded-full ${
-              activeSection === 'knowledge'
-                ? isDarkMode
-                  ? 'bg-[#4CAF50]/20 text-[#4CAF50]'
-                  : 'bg-[#1a1a1a]/20 text-[#1a1a1a]'
-                : isDarkMode
-                  ? 'hover:bg-[#4CAF50]/10 text-gray-300 hover:text-[#4CAF50]'
-                  : 'hover:bg-[#1a1a1a]/10 text-[#1a1a1a] hover:text-[#1a1a1a]'
-            } transition-colors duration-300`}
-            onClick={() => scrollToSection(knowledgeRef)}
-          >
-            <BookOpen className="h-5 w-5 mr-2" />
-            About me
-          </Button>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className={`rounded-full ${
-              activeSection === 'portfolio'
-                ? isDarkMode
-                  ? 'bg-[#4CAF50]/20 text-[#4CAF50]'
-                  : 'bg-[#1a1a1a]/20 text-[#1a1a1a]'
-                : isDarkMode
-                  ? 'hover:bg-[#4CAF50]/10 text-gray-300 hover:text-[#4CAF50]'
-                  : 'hover:bg-[#1a1a1a]/10 text-[#1a1a1a] hover:text-[#1a1a1a]'
-            } transition-colors duration-300`}
-            onClick={() => scrollToSection(portfolioRef)}
-          >
-            <BookOpen className="h-5 w-5 mr-2" />
-            Portfolio
-          </Button>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className={`rounded-full ${
-              activeSection === 'contact'
-                ? isDarkMode
-                  ? 'bg-[#4CAF50] text-white'
-                  : 'bg-[#4CAF50] text-white'
-                : isDarkMode
-                  ? 'bg-[#4CAF50]/20 text-[#4CAF50] hover:bg-[#4CAF50]/30'
-                  : 'bg-[#1a1a1a]/20 text-[#1a1a1a] hover:bg-[#1a1a1a]/30'
-            } transition-colors duration-300`}
-            onClick={() => scrollToSection(contactRef)}
-          >
-            <Mail className="h-5 w-5 mr-2" />
-            Contact
-          </Button>
-          <Button
+        <div>
+          <div className="flex items-center justify-between mb-8">
+            <h2 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Menu</h2>
+            <Button
               variant="ghost"
               size="icon"
-              onClick={handleToggleTheme}
+              onClick={() => setMobileMenuOpen(false)}
               className={`rounded-full ${isDarkMode ? 'text-gray-300 hover:text-[#4CAF50]' : 'text-[#1a1a1a] hover:text-[#1a1a1a]'} transition-colors duration-300`}
             >
-              {isDarkMode ? (
-                <Moon className="h-[1.2rem] w-[1.2rem]" />
-              ) : (
-                <Sun className="h-[1.2rem] w-[1.2rem]" />
-              )}
-              <span className="sr-only">Toggle theme</span>
+              <X className="h-6 w-6" />
             </Button>
+          </div>
+          <nav className="flex flex-col space-y-4">
+            <Button
+              variant="ghost"
+              className={`justify-start ${
+                activeSection === 'home'
+                  ? isDarkMode
+                    ? 'bg-[#4CAF50]/20 text-[#4CAF50]'
+                    : 'bg-[#1a1a1a]/20 text-[#1a1a1a]'
+                  : isDarkMode
+                    ? 'text-gray-300 hover:bg-[#4CAF50]/10 hover:text-[#4CAF50]'
+                    : 'text-[#1a1a1a] hover:bg-[#1a1a1a]/10'
+              }`}
+              onClick={() => {
+                scrollToSection(homeRef)
+                setMobileMenuOpen(false)
+              }}
+            >
+              <Home className="h-5 w-5 mr-2" />
+              Home
+            </Button>
+            <Button
+              variant="ghost"
+              className={`justify-start ${
+                activeSection === 'knowledge'
+                  ? isDarkMode
+                    ? 'bg-[#4CAF50]/20 text-[#4CAF50]'
+                    : 'bg-[#1a1a1a]/20 text-[#1a1a1a]'
+                  : isDarkMode
+                    ? 'text-gray-300 hover:bg-[#4CAF50]/10 hover:text-[#4CAF50]'
+                    : 'text-[#1a1a1a] hover:bg-[#1a1a1a]/10'
+              }`}
+              onClick={() => {
+                scrollToSection(knowledgeRef)
+                setMobileMenuOpen(false)
+              }}
+            >
+              <BookOpen className="h-5 w-5 mr-2" />
+              About me
+            </Button>
+            <Button
+              variant="ghost"
+              className={`justify-start ${
+                activeSection === 'portfolio'
+                  ? isDarkMode
+                    ? 'bg-[#4CAF50]/20 text-[#4CAF50]'
+                    : 'bg-[#1a1a1a]/20 text-[#1a1a1a]'
+                  : isDarkMode
+                    ? 'text-gray-300 hover:bg-[#4CAF50]/10 hover:text-[#4CAF50]'
+                    : 'text-[#1a1a1a] hover:bg-[#1a1a1a]/10'
+              }`}
+              onClick={() => {
+                scrollToSection(portfolioRef)
+                setMobileMenuOpen(false)
+              }}
+            >
+              <BookOpen className="h-5 w-5 mr-2" />
+              Portfolio
+            </Button>
+            <Button
+              variant="ghost"
+              className={`justify-start ${
+                activeSection === 'contact'
+                  ? isDarkMode
+                    ? 'bg-[#4CAF50] text-white'
+                    : 'bg-[#4CAF50] text-white'
+                  : isDarkMode
+                    ? 'bg-[#4CAF50]/20 text-[#4CAF50] hover:bg-[#4CAF50]/30'
+                    : 'bg-[#1a1a1a]/20 text-[#1a1a1a] hover:bg-[#1a1a1a]/30'
+              }`}
+              onClick={() => {
+                scrollToSection(contactRef)
+                setMobileMenuOpen(false)
+              }}
+            >
+              <Mail className="h-5 w-5 mr-2" />
+              Contact
+            </Button>
+          </nav>
         </div>
-      </motion.nav>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => {
+            handleToggleTheme()
+            setMobileMenuOpen(false)
+          }}
+          className={`self-start rounded-full ${isDarkMode ? 'text-gray-300 hover:text-[#4CAF50]' : 'text-[#1a1a1a] hover:text-[#1a1a1a]'} transition-colors duration-300`}
+        >
+          {isDarkMode ? (
+            <Moon className="h-[1.2rem] w-[1.2rem]" />
+          ) : (
+            <Sun className="h-[1.2rem] w-[1.2rem]" />
+          )}
+          <span className="sr-only">Toggle theme</span>
+        </Button>
+      </motion.div>
+    </motion.div>
+  )}
+</AnimatePresence>
 
       {/* Main content */}
       <motion.div 
