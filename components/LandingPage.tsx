@@ -6,8 +6,8 @@ import Image from 'next/image'
 import { Card } from "@/components/ui/card"
 //import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Home, X, Menu, BookOpen, Mail, Moon, Sun, DownloadIcon, ChevronRight, ChevronDown, Box, Globe, Users, Layers, ArrowDown } from 'lucide-react'
-import { useTheme } from 'next-themes'
+import { Home, BookOpen, Mail, Moon, Sun, DownloadIcon, ChevronRight, ChevronDown, Box, Globe, Users, Layers, ArrowDown } from 'lucide-react'
+//import { useTheme } from 'next-themes'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 
@@ -330,11 +330,11 @@ const TypewriterEffectSmooth: React.FC<TypewriterEffectSmoothProps> = ({ words }
 
   useEffect(() => {
     const word = words[currentWordIndex].text
-    const delay = isDeleting ? 90 : 100
+    const delay = isDeleting ? 50 : 80
 
     const timer = setTimeout(() => {
       if (!isDeleting && currentText === word) {
-        setTimeout(() => setIsDeleting(true), 400)
+        setTimeout(() => setIsDeleting(true), 600)
       } else if (isDeleting && currentText === '') {
         setIsDeleting(false)
         setCurrentWordIndex((prevIndex) => (prevIndex + 1) % words.length)
@@ -384,14 +384,14 @@ export default function LandingPage() {
   const [scrolled, setScrolled] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
-  const { theme, setTheme } = useTheme ( )
+  //const { theme, setTheme } = useTheme ( )
   const containerRef = useRef<HTMLDivElement>(null)
   const homeRef = useRef<HTMLDivElement>(null)
   const knowledgeRef = useRef<HTMLDivElement>(null)
   const portfolioRef = useRef<HTMLDivElement>(null)
   const contactRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"]
@@ -399,9 +399,7 @@ export default function LandingPage() {
 
   const heroOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0])
   const heroScale = useTransform(scrollYProgress, [0, 0.25], [1, 0.8])
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen)
-  }
+
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!isDeleting && index <= fullText.length) {
@@ -511,14 +509,9 @@ export default function LandingPage() {
     }
   }, [isDarkMode])
 
-  useEffect(() => {
-    setIsDarkMode(theme === 'light')
-  }, [theme])
 
   const handleToggleTheme = () => {
-    const newTheme = isDarkMode ? 'light' : 'dark'
-    setTheme(newTheme)
-    setIsDarkMode(!isDarkMode)
+    setIsDarkMode(prevMode => !prevMode)
   }
 
   function scrollToSection(ref: React.RefObject<HTMLElement>) {
@@ -540,8 +533,7 @@ export default function LandingPage() {
   }
 
   const words = [
-    { text: "Build,create,deploy awesome websites" },
-    { text: "and grow ur company", className: "text-[#4CAF50]" },
+    { text: "Build,create,deploy awesome websites and grow ur company" }
   ]
 
   useEffect(() => {
@@ -555,48 +547,7 @@ export default function LandingPage() {
 
     return () => window.removeEventListener('resize', setVh)
   }, [])
-  const MobileMenu = () => (
-    <motion.div 
-      className={`fixed top-0 right-0 h-screen w-64 bg-white dark:bg-gray-800 z-50 shadow-lg transform ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out`}
-      initial={false}
-      animate={{ x: isMobileMenuOpen ? 0 : '100%' }}
-    >
-      <div className="flex flex-col h-full p-4">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="self-end mb-8"
-          onClick={toggleMobileMenu}
-        >
-          <X className="h-6 w-6" />
-        </Button>
-        {['home', 'knowledge', 'portfolio', 'contact'].map((section) => (
-          <Button
-            key={section}
-            variant="ghost"
-            className={`justify-start mb-4 ${
-              activeSection === section
-                ? isDarkMode
-                  ? 'bg-[#4CAF50]/20 text-[#4CAF50]'
-                  : 'bg-[#1a1a1a]/20 text-[#1a1a1a]'
-                : ''
-            }`}
-            onClick={() => {
-              scrollToSection(section === 'home' ? homeRef : section === 'knowledge' ? knowledgeRef : section === 'portfolio' ? portfolioRef : contactRef)
-              setIsMobileMenuOpen(false)
-            }}
-          >
-            {section === 'home' && <Home className="h-5 w-5 mr-2" />}
-            {section === 'knowledge' && <BookOpen className="h-5 w-5 mr-2" />}
-            {section === 'portfolio' && <BookOpen className="h-5 w-5 mr-2" />}
-            {section === 'contact' && <Mail className="h-5 w-5 mr-2" />}
-            {section.charAt(0).toUpperCase() + section.slice(1)}
-          </Button>
-        ))}
-      </div>
-    </motion.div>
-  )
-  
+
   return (
     <motion.div 
       className={`font-outfit min-h-screen ${isDarkMode ? 'bg-[#1a1a1a] text-gray-100' : 'bg-gradient-to-br from-white via-gray-100 to-gray-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700'} relative`}
@@ -627,9 +578,6 @@ export default function LandingPage() {
           />
         </div>
       )}
-      {/* Mobile Menu */}
-        <MobileMenu />
-
 
       {/* Navigation */}
       <motion.nav 
@@ -720,27 +668,19 @@ export default function LandingPage() {
             Contact
           </Button>
           <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleToggleTheme}
-              className={`rounded-full ${isDarkMode ? 'text-gray-300 hover:text-[#4CAF50]' : 'text-[#1a1a1a] hover:text-[#1a1a1a]'} transition-colors duration-300`}
-            >
-              {isDarkMode ? (
-                <Moon className="h-[1.2rem] w-[1.2rem]" />
-              ) : (
-                <Sun className="h-[1.2rem] w-[1.2rem]" />
-              )}
-              <span className="sr-only">Toggle theme</span>
-            </Button>
+                variant="ghost"
+                size="icon"
+                onClick={handleToggleTheme}
+                className={`rounded-full ${isDarkMode ? 'text-gray-300 hover:text-[#4CAF50]' : 'text-[#1a1a1a] hover:text-[#1a1a1a]'} transition-colors duration-300`}
+              >
+                {isDarkMode ? (
+                  <Moon className="h-[1.2rem] w-[1.2rem]" />
+                ) : (
+                  <Sun className="h-[1.2rem] w-[1.2rem]" />
+                )}
+                <span className="sr-only">Toggle theme</span>
+              </Button>
         </div>
-        <Button
-            variant="ghost"
-            size="icon"
-            className="lg:hidden"
-            onClick={toggleMobileMenu}
-          >
-            <Menu className="h-6 w-6" />
-          </Button>
       </motion.nav>
 
       {/* Main content */}
@@ -791,7 +731,7 @@ export default function LandingPage() {
                   }
                 }}
               >
-                Hi, Im <span className={`${isDarkMode ? 'text-[#4CAF50]' : 'text-[#2A5E34]'} animate-fade animate-once animate-delay-500 animate-ease-in`}>
+                Hi, I'm <span className={`${isDarkMode ? 'text-[#4CAF50]' : 'text-[#2A5E34]'} animate-fade animate-once animate-delay-500 animate-ease-in`}>
                   Elio
                 </span>
               </motion.h1>
@@ -962,7 +902,7 @@ export default function LandingPage() {
                     </div>
                     <div className="w-full h-72 rounded-lg overflow-hidden relative group">
                       <div className="absolute inset-x-[10%] bottom-0 w-[80%] h-10 bg-gradient-to-t from-black to-transparent z-10"></div>
-                    
+                      import Image from 'next/image'
                     <Image 
                       src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/file-442mUV2YUCv1QocduYoUzBJ5a8QaBZ.png" 
                       alt="Profile of Elio" 
@@ -987,7 +927,7 @@ export default function LandingPage() {
                 <Card className={`p-6 rounded-xl shadow-lg relative overflow-hidden`} style={getBentoBoxStyle()}>
                   <div className="relative z-10">
                     <h3 className={`text-xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>A little bit about me</h3>
-                    <p className={`mb-4 font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>Im a graphic designer and web developer with over a decade of experience, specializing in creating innovative visual experiences that blend technology and aesthetics. Since I was 13, Ive been immersed in the world of design, constantly evolving and adapting to new technologies.</p>
+                    <p className={`mb-4 font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>I'm a graphic designer and web developer with over a decade of experience, specializing in creating innovative visual experiences that blend technology and aesthetics. Since I was 13, I've been immersed in the world of design, constantly evolving and adapting to new technologies.</p>
                   </div>
                   <Meteors number={20} />
                 </Card>
@@ -1170,14 +1110,14 @@ export default function LandingPage() {
                   <div className="px-6 py-12 sm:p-16 lg:p-24">
                     <div className="flex flex-col items-center justify-center text-center">
                     <p className="mb-4 text-gray-600 text-sm sm:text-base">
-                        The road to freedom starts from here
+                        The road to improve ur brand starts here
                       </p>
                       <TypewriterEffectSmooth words={words} />
                       <div className="mt-8" >
                         <a href="mailto:eliolaurencio@gmail.com" 
                           className="w-40 h-10 rounded-md bg-[#4CAF50] text-white text-sm font-medium transition-colors hover:bg-gray-700 flex items-center justify-center"
                         >
-                          Lets have a chat
+                          Let's have a chat
                         </a>
                       </div>
                     </div>
