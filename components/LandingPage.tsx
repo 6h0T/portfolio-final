@@ -7,7 +7,6 @@ import { Card } from "@/components/ui/card"
 //import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Home, BookOpen, Mail, Moon, Sun, DownloadIcon, ChevronRight, ChevronDown, Box, Globe, Users, Layers, ArrowDown } from 'lucide-react'
-//import { useTheme } from 'next-themes'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 
@@ -384,7 +383,6 @@ export default function LandingPage() {
   const [scrolled, setScrolled] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
-  //const { theme, setTheme } = useTheme ( )
   const containerRef = useRef<HTMLDivElement>(null)
   const homeRef = useRef<HTMLDivElement>(null)
   const knowledgeRef = useRef<HTMLDivElement>(null)
@@ -451,7 +449,6 @@ export default function LandingPage() {
   useEffect(() => {
     updateActiveSection()
   }, [])
-
   useEffect(() => {
     if (canvasRef.current) {
       const scene = new THREE.Scene()
@@ -511,9 +508,12 @@ export default function LandingPage() {
 
 
   const handleToggleTheme = () => {
-    setIsDarkMode(prevMode => !prevMode)
+    setIsDarkMode(prevMode => {
+      const newMode = !prevMode
+      localStorage.setItem('theme', newMode ? 'dark' : 'light')
+      return newMode
+    })
   }
-
   function scrollToSection(ref: React.RefObject<HTMLElement>) {
     ref.current?.scrollIntoView({ behavior: 'smooth' })
   }
