@@ -11,6 +11,7 @@ import { useTheme } from 'next-themes'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from "@vercel/analytics/react"
 // Meteors component
 const Meteors = ({ number }: { number: number }) => {
   const meteors = [...Array(number)].map((_, index) => (
