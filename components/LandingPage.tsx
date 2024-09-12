@@ -731,7 +731,7 @@ export default function LandingPage() {
                   }
                 }}
               >
-                Hi, I'm <span className={`${isDarkMode ? 'text-[#4CAF50]' : 'text-[#2A5E34]'} animate-fade animate-once animate-delay-500 animate-ease-in`}>
+                Hi, Im <span className={`${isDarkMode ? 'text-[#4CAF50]' : 'text-[#2A5E34]'} animate-fade animate-once animate-delay-500 animate-ease-in`}>
                   Elio
                 </span>
               </motion.h1>
@@ -902,7 +902,6 @@ export default function LandingPage() {
                     </div>
                     <div className="w-full h-72 rounded-lg overflow-hidden relative group">
                       <div className="absolute inset-x-[10%] bottom-0 w-[80%] h-10 bg-gradient-to-t from-black to-transparent z-10"></div>
-                      import Image from 'next/image'
                     <Image 
                       src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/file-442mUV2YUCv1QocduYoUzBJ5a8QaBZ.png" 
                       alt="Profile of Elio" 
@@ -927,7 +926,7 @@ export default function LandingPage() {
                 <Card className={`p-6 rounded-xl shadow-lg relative overflow-hidden`} style={getBentoBoxStyle()}>
                   <div className="relative z-10">
                     <h3 className={`text-xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>A little bit about me</h3>
-                    <p className={`mb-4 font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>I'm a graphic designer and web developer with over a decade of experience, specializing in creating innovative visual experiences that blend technology and aesthetics. Since I was 13, I've been immersed in the world of design, constantly evolving and adapting to new technologies.</p>
+                    <p className={`mb-4 font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>Im a graphic designer and web developer with over a decade of experience, specializing in creating innovative visual experiences that blend technology and aesthetics. Since I was 13, Ive been immersed in the world of design, constantly evolving and adapting to new technologies.</p>
                   </div>
                   <Meteors number={20} />
                 </Card>
@@ -1117,7 +1116,7 @@ export default function LandingPage() {
                         <a href="mailto:eliolaurencio@gmail.com" 
                           className="w-40 h-10 rounded-md bg-[#4CAF50] text-white text-sm font-medium transition-colors hover:bg-gray-700 flex items-center justify-center"
                         >
-                          Let's have a chat
+                          Lets have a chat
                         </a>
                       </div>
                     </div>
