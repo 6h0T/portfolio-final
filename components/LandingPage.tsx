@@ -1168,7 +1168,7 @@ function scrollToSection(ref: React.RefObject<HTMLElement>) {
                     <div className="grid grid-cols-2 gap-2">
                       {[
                         "Figma", "Photoshop", "Illustrator",
-                        "Vercel", "Firefly", "Tailwind"
+                        "Capcut", "Firefly", "Next.Js"
                       ].map((tool, index) => (
                         <button
                           key={index}
