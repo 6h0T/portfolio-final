@@ -941,26 +941,26 @@ function scrollToSection(ref: React.RefObject<HTMLElement>) {
         <MagicUIBlurFade>
           <motion.section 
             ref={knowledgeRef}
-            className="w-full min-h-screen p-6 relative overflow-hidden font-outfit"
+            className="w-full min-h-screen p-4 sm:p-6 relative overflow-hidden font-outfit"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <div className="max-w-7xl mx-auto grid grid-cols-3 gap-4 relative z-10">
-              {/* Intro Section */}
-              <motion.div
-                className="col-span-2"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                viewport={{ once: true }}
-              >
-                <Card className={`p-6 rounded-xl shadow-lg relative overflow-hidden`} style={getBentoBoxStyle()}>
+            <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 relative z-10">
+            {/* Intro Section */}
+            <motion.div
+              className="sm:col-span-2"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+            >
+                <Card className={`p-4 sm:p-6 rounded-xl shadow-lg relative overflow-hidden`} style={getBentoBoxStyle()}>
                   <div className="relative z-10">
-                    <h2 className={`text-2xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Graphic and Web Designer with nearly 10 years of experience</h2>
-                    <p className={`mb-4 font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>Specialized in crafting innovative and user-centered digital experiences with a focus on Web3 aesthetics and futuristic, visually striking designs.</p>
-                    <div className="flex justify-between items-center">
+                    <h2 className={`text-xl sm:text-2xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Graphic and Web Designer with nearly 10 years of experience</h2>
+                    <p className={`mb-4 font-medium text-sm sm:text-base ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>Specialized in crafting innovative and user-centered digital experiences with a focus on Web3 aesthetics and futuristic, visually striking designs.</p>
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
                       <div className="flex space-x-4">
                         <a href="https://www.linkedin.com/in/elio-laurencio/" target="_blank" rel="noopener noreferrer">
                           <svg
@@ -1018,18 +1018,18 @@ function scrollToSection(ref: React.RefObject<HTMLElement>) {
                         </a>
                       </div>
                       <a 
-                        href="https://drive.google.com/file/d/10qz9Ph16cM620BuBOeCXkEg4QQqELRVv/view?usp=sharing" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        className={`flex items-center space-x-2 ${
-                          isDarkMode 
-                            ? 'bg-white text-black hover:bg-[#4CAF50]' 
-                            : 'bg-gray-700 text-white hover:bg-[#4CAF50]'
-                        } px-4 py-2 rounded-full text-sm font-bold transition-colors`}
-                      >
-                        <DownloadIcon className="h-4 w-4" />
-                        <span>Resume</span>
-                      </a>
+                          href="https://drive.google.com/file/d/10qz9Ph16cM620BuBOeCXkEg4QQqELRVv/view?usp=sharing" 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className={`flex items-center space-x-2 ${
+                            isDarkMode 
+                              ? 'bg-white text-black hover:bg-[#4CAF50]' 
+                              : 'bg-gray-700 text-white hover:bg-[#4CAF50]'
+                          } px-4 py-2 rounded-full text-sm font-bold transition-colors`}
+                        >
+                          <DownloadIcon className="h-4 w-4" />
+                          <span>Resume</span>
+                        </a>
                     </div>
                   </div>
                   <Meteors number={20} />
@@ -1044,23 +1044,22 @@ function scrollToSection(ref: React.RefObject<HTMLElement>) {
                 transition={{ duration: 0.5, delay: 0.2 }}
                 viewport={{ once: true }}
               >
-                <Card className={`p-6 rounded-xl shadow-lg relative overflow-hidden h-full`} style={getBentoBoxStyle()}>
+                <Card className={`p-4 sm:p-6 rounded-xl shadow-lg relative overflow-hidden h-full`} style={getBentoBoxStyle()}>
                   <div className="relative z-10 h-full flex flex-col justify-between space-y-4">
                     <div>
-                      <h3 className={`text-xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>My name is Elio</h3>
-                      <p className={ `mb-4 font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>But you can call me gh0t!</p>
-                      <p className={`font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>Grab my <a href="mailto:eliolaurencio@gmail.com" className={`underline hover:text-[#D1C3B1] transition-colors`}>email</a> and get in touch</p>
+                      <h3 className={`text-lg sm:text-xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>My name is Elio</h3>
+                      <p className={`mb-4 font-medium text-sm sm:text-base ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>But you can call me gh0t!</p>
+                      <p className={`font-medium text-sm sm:text-base ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>Grab my <a href="mailto:eliolaurencio@gmail.com" className={`underline hover:text-[#D1C3B1] transition-colors`}>email</a> and get in touch</p>
                     </div>
-                    <div className="w-full h-72 rounded-lg overflow-hidden relative group">
+                    <div className="w-full h-48 sm:h-72 rounded-lg overflow-hidden relative group">
                       <div className="absolute inset-x-[10%] bottom-0 w-[80%] h-10 bg-gradient-to-t from-black to-transparent z-10"></div>
-                    
-                    <Image 
-                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/file-442mUV2YUCv1QocduYoUzBJ5a8QaBZ.png" 
-                      alt="Profile of Elio" 
-                      width={300}
-                      height={400}
-                      className="w-full h-full object-cover object-center transition-transform duration-300 ease-in-out group-hover:scale-110"
-                    />
+                      <Image 
+                        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/file-442mUV2YUCv1QocduYoUzBJ5a8QaBZ.png" 
+                        alt="Profile of Elio" 
+                        width={300}
+                        height={400}
+                        className="w-full h-full object-cover object-center transition-transform duration-300 ease-in-out group-hover:scale-110"
+                      />
                     </div>
                   </div>
                   <Meteors number={20} />
@@ -1069,16 +1068,16 @@ function scrollToSection(ref: React.RefObject<HTMLElement>) {
 
               {/* Background Section */}
               <motion.div
-                className="col-span-2"
+                className="sm:col-span-2"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
                 viewport={{ once: true }}
               >
-                <Card className={`p-6 rounded-xl shadow-lg relative overflow-hidden`} style={getBentoBoxStyle()}>
+                <Card className={`p-4 sm:p-6 rounded-xl shadow-lg relative overflow-hidden`} style={getBentoBoxStyle()}>
                   <div className="relative z-10">
-                    <h3 className={`text-xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>A little bit about me</h3>
-                    <p className={`mb-4 font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>Im a graphic designer and web developer with over a decade of experience, specializing in creating innovative visual experiences that blend technology and aesthetics. Since I was 13, Ive been immersed in the world of design, constantly evolving and adapting to new technologies.</p>
+                    <h3 className={`text-lg sm:text-xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>A little bit about me</h3>
+                    <p className={`mb-4 font-medium text-sm sm:text-base ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>I'm a graphic designer and web developer with over a decade of experience, specializing in creating innovative visual experiences that blend technology and aesthetics. Since I was 13, I've been immersed in the world of design, constantly evolving and adapting to new technologies.</p>
                   </div>
                   <Meteors number={20} />
                 </Card>
@@ -1086,16 +1085,16 @@ function scrollToSection(ref: React.RefObject<HTMLElement>) {
 
               {/* Experience and Language Section */}
               <motion.div
-                className="col-span-2 space-y-4"
+                className="sm:col-span-2 space-y-4"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.6 }}
                 viewport={{ once: true }}
               >
                 {/* Experience Section */}
-                <Card className={`p-6 rounded-xl shadow-lg relative overflow-hidden`} style={getBentoBoxStyle()}>
+                <Card className={`p-4 sm:p-6 rounded-xl shadow-lg relative overflow-hidden`} style={getBentoBoxStyle()}>
                   <div className="relative z-10">
-                    <h3 className={`text-xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Experience</h3>
+                    <h3 className={`text-lg sm:text-xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Experience</h3>
                     <div className="space-y-4">
                       {[
                         { period: "Now", role: "Freelance Web and graphic designer", company: "g.studio", remote: true },
@@ -1105,11 +1104,11 @@ function scrollToSection(ref: React.RefObject<HTMLElement>) {
                       ].map((job, index) => (
                         <div key={index} className="flex flex-col">
                           <div className="flex justify-between items-start">
-                          <p className={`text-sm font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} pr-2`}>{job.role}</p>
+                            <p className={`text-sm font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} pr-2`}>{job.role}</p>
                             <p className={`text-xs font-medium whitespace-nowrap ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{job.period}</p>
                           </div>
                           <div className="flex items-center mt-1">
-                          <p className={`text-xs font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{job.company}</p>
+                            <p className={`text-xs font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{job.company}</p>
                             {job.remote && (
                               <span className={`ml-2 text-xs font-medium ${
                                 isDarkMode 
@@ -1128,9 +1127,9 @@ function scrollToSection(ref: React.RefObject<HTMLElement>) {
                 </Card>
 
                 {/* Language Section */}
-                <Card className={`p-6 rounded-xl shadow-lg relative overflow-hidden`} style={getBentoBoxStyle()}>
+                <Card className={`p-4 sm:p-6 rounded-xl shadow-lg relative overflow-hidden`} style={getBentoBoxStyle()}>
                   <div className="relative z-10">
-                    <h3 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Languages</h3>
+                    <h3 className={`text-lg sm:text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Languages</h3>
                     <div className="space-y-2">
                       {[
                         { language: "English", level: "B2", description: "Professional writing and speaking" },
@@ -1159,7 +1158,7 @@ function scrollToSection(ref: React.RefObject<HTMLElement>) {
 
               {/* Tool Stack and 3D Visualization Section */}
               <motion.div
-                className="col-span-1 space-y-4"
+                className="space-y-4"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.8 }}
@@ -1167,7 +1166,7 @@ function scrollToSection(ref: React.RefObject<HTMLElement>) {
               >
                 <Card className={`p-4 rounded-xl shadow-lg relative overflow-hidden`} style={getBentoBoxStyle()}>
                   <div className="relative z-10">
-                    <h3 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Tool stack</h3>
+                    <h3 className={`text-lg sm:text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Tool stack</h3>
                     <div className="grid grid-cols-2 gap-2">
                       {[
                         "Figma", "Photoshop", "Illustrator",
@@ -1203,16 +1202,16 @@ function scrollToSection(ref: React.RefObject<HTMLElement>) {
 
               {/* Education Section */}
               <motion.div
-                className="col-span-3"
+                className="sm:col-span-2 lg:col-span-3"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 1 }}
                 viewport={{ once: true }}
               >
-                <Card className={`p-6 rounded-xl shadow-lg relative overflow-hidden`} style={getBentoBoxStyle()}>
+                <Card className={`p-4 sm:p-6 rounded-xl shadow-lg relative overflow-hidden`} style={getBentoBoxStyle()}>
                   <div className="relative z-10">
-                    <h3 className={`text-xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'} text-center`}>Education</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <h3 className={`text-lg sm:text-xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'} text-center`}>Education</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {[
                         { period: "2023 — 2023", degree: "Prototype figma course", institution: "CoderHouse" },
                         { period: "2022 — 2023", degree: "User Experience", institution: "CoderHouse" },
